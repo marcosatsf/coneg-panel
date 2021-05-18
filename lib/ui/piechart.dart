@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 
-class Dashboard extends StatefulWidget {
+class CustomPieChart extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends State<CustomPieChart> {
   int touchedIndex, doubleClick;
   double heightCont = 0;
   Color colorCont;
