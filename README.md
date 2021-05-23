@@ -1,4 +1,4 @@
-# ConEg
+# ConEg-Panel
 
 Administrative Dashboard Web Application for ConEg project written in Dart language with Flutter Framework.
 
