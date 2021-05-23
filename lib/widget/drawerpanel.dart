@@ -48,30 +48,34 @@ class DrawerPanel extends StatelessWidget {
             title: Text('Dashboard'),
             leading: Icon(Icons.dashboard_rounded),
             onTap: () {
-              context.vxNav.push(
-                Uri.parse(ConegRoutes.dashboard),
-              );
+              Navigator.pushNamed(context, ConegRoutes.dashboard);
+              // context.vxNav.push(
+              //   Uri.parse(ConegRoutes.dashboard),
+              // );
             },
           ),
           ListTile(
             title: Text('Cadastro de Pessoas'),
             leading: Icon(Icons.add_box_rounded),
             onTap: () {
-              context.vxNav.push(Uri.parse(ConegRoutes.cadastro));
+              Navigator.pushNamed(context, ConegRoutes.cadastro);
+              // context.vxNav.push(Uri.parse(ConegRoutes.cadastro));
             },
           ),
           ListTile(
             title: Text('Configuração de Notificação'),
             leading: Icon(Icons.notification_important_rounded),
             onTap: () {
-              context.vxNav.push(Uri.parse(ConegRoutes.configNotific));
+              Navigator.pushNamed(context, ConegRoutes.configNotific);
+              // context.vxNav.push(Uri.parse(ConegRoutes.configNotific));
             },
           ),
           ListTile(
             title: Text('Configuração do Administrador'),
             leading: Icon(Icons.miscellaneous_services_rounded),
             onTap: () {
-              context.vxNav.push(Uri.parse(ConegRoutes.configAdm));
+              Navigator.pushNamed(context, ConegRoutes.configAdm);
+              // context.vxNav.push(Uri.parse(ConegRoutes.configAdm));
             },
           ),
           ListTile(
