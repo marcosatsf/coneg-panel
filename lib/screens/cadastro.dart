@@ -5,6 +5,8 @@ import 'dart:typed_data';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+// import 'package:dio/dio.dart';
+// import 'package:dio/adapter.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -26,6 +28,7 @@ class _CadastroState extends State<Cadastro> {
     setState(() {
       _bytesData = Base64Decoder().convert(result.toString().split(",").last);
       _selectedZip = _bytesData;
+      // _selectedZip = result;
     });
   }
 
@@ -37,65 +40,54 @@ class _CadastroState extends State<Cadastro> {
     uploadInput.click();
     uploadInput.onChange.listen((event) {
       final files = uploadInput.files;
-      final file = files[0];
+      final html.File file = files[0];
       final reader = new html.FileReader();
 
       reader.onLoadEnd.listen((event) {
-        print('reader.result -> ${reader.result}');
         _handleResult(reader.result);
       });
       reader.readAsDataUrl(file);
-      //TODO else multiple files or 0
     });
-  }
-
-  Future makeRequest() async {
-    cadastroWorker.postMessage(
-        {"file": _selectedZip, "uri": "http://localhost:5000/upload"});
   }
 
   Future makeRequestMultipart() async {
     http.MultipartRequest req = http.MultipartRequest(
         "POST", Uri.parse("http://localhost:5000/upload"));
 
-    req.files.add(await http.MultipartFile.fromBytes('file', _selectedZip,
-        contentType: MediaType('application', 'x-zip'),
-        filename: 'flutter_echarts-master.zip'));
-    print('req.headers -> ${req.headers}');
-    print('req.f.contentType -> ${req.files[0].contentType}');
-    print('req.f.field -> ${req.files[0].field}');
-    print('req.f.filename -> ${req.files[0].filename}');
-    print('req.f.length -> ${req.files[0].length}');
-    print('req.contentLength -> ${req.contentLength}');
+    req.files.add(await http.MultipartFile.fromBytes('file_rec', _selectedZip,
+        contentType: MediaType('multipart', 'form-data'),
+        filename: 'uploaded_file.zip'));
+
     req.send().then((response) {
       print(response.statusCode);
-      if (response.statusCode == 200) print("Uploaded!");
+      if (response.statusCode == 200) {
+        print("Uploaded!");
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: new Text("Details"),
+                  //content: new Text("Hello World"),
+                  content: new SingleChildScrollView(
+                    child: new ListBody(
+                      children: [
+                        new Text("Uploaded com sucesso!"),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    new ElevatedButton(
+                      child: new Text('Aceitar'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        // context.vxNav.push(Uri.parse(ConegRoutes.dashboard));
+                      },
+                    ),
+                  ]);
+            });
+      }
     });
-
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: new Text("Details"),
-              //content: new Text("Hello World"),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: [
-                    new Text("Uploaded com sucesso!"),
-                  ],
-                ),
-              ),
-              actions: [
-                new ElevatedButton(
-                  child: new Text('Aceitar'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    // context.vxNav.push(Uri.parse(ConegRoutes.dashboard));
-                  },
-                ),
-              ]);
-        });
   }
 
   @override
@@ -132,7 +124,7 @@ class _CadastroState extends State<Cadastro> {
                     ),
                     MaterialButton(
                       onPressed: () {
-                        makeRequest();
+                        makeRequestMultipart();
                       },
                       child: Text('Enviar arquivo para servidor'),
                       color: Colors.purple,

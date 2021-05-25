@@ -31,8 +31,8 @@ dependencies:
   fl_chart: ^0.36.1
   url_strategy: ^0.2.0
   velocity_x: ^3.0.0
-  http: ^0.12.0+2
   universal_html: ^2.0.8
+  http: ^0.12.0+4
 
 dev_dependencies:
   flutter_test:
