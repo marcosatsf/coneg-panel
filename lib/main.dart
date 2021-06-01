@@ -11,7 +11,7 @@ void main() {
   setPathUrlStrategy();
   runApp(MaterialApp(
     title: 'ConEg-Front',
-    initialRoute: '/',
+    initialRoute: ConegRoutes.dashboard,
     routes: {
       '/': (context) => Home(),
       ConegRoutes.dashboard: (context) => Dashboard(),
