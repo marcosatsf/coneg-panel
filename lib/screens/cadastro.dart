@@ -51,8 +51,8 @@ class _CadastroState extends State<Cadastro> {
   }
 
   Future makeRequestMultipart() async {
-    http.MultipartRequest req = http.MultipartRequest(
-        "POST", Uri.parse("http://localhost:5000/upload"));
+    http.MultipartRequest req =
+        http.MultipartRequest("POST", Uri.parse("http://api:5000/upload"));
 
     req.files.add(await http.MultipartFile.fromBytes('file_rec', _selectedZip,
         contentType: MediaType('multipart', 'form-data'),
@@ -79,6 +79,32 @@ class _CadastroState extends State<Cadastro> {
                   actions: [
                     new ElevatedButton(
                       child: new Text('Aceitar'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        // context.vxNav.push(Uri.parse(ConegRoutes.dashboard));
+                      },
+                    ),
+                  ]);
+            });
+      } else {
+        print("Not uploaded! ${response.statusCode}");
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  title: new Text("Details"),
+                  //content: new Text("Hello World"),
+                  content: new SingleChildScrollView(
+                    child: new ListBody(
+                      children: [
+                        new Text("Não foi possível realizar este processo!"),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    new ElevatedButton(
+                      child: new Text('OK'),
                       onPressed: () {
                         Navigator.pop(context);
                         // context.vxNav.push(Uri.parse(ConegRoutes.dashboard));

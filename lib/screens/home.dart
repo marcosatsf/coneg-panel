@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   void tryLogin() async {
     var req = await http.post(
-      Uri.parse('http://localhost/auth/token'),
+      Uri.parse('http://api/auth/token'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
