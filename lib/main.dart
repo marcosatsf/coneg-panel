@@ -1,4 +1,6 @@
+import 'package:coneg/models/auth_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:coneg/screens/home.dart';
 import 'package:coneg/utils/routes.dart';
@@ -8,10 +10,11 @@ import 'package:coneg/screens/notificacao.dart';
 import 'package:coneg/screens/configuracao.dart';
 
 void main() {
+  GetIt.I.registerSingleton(AuthModel());
   setPathUrlStrategy();
   runApp(MaterialApp(
     title: 'ConEg-Front',
-    initialRoute: ConegRoutes.dashboard,
+    initialRoute: '/',
     routes: {
       '/': (context) => Home(),
       ConegRoutes.dashboard: (context) => Dashboard(),

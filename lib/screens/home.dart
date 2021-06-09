@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:coneg/models/auth_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:coneg/utils/routes.dart';
 import 'package:coneg/widget/appbarpanel.dart';
@@ -12,18 +15,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final user = TextEditingController();
+  final pass = TextEditingController();
+
   void tryLogin() async {
     var req = await http.post(
-      Uri.parse('http://api/auth/token'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-          <String, String>{'username': 'test', 'password': 'test_pw'}),
+      Uri.parse("http://localhost:5000/token"),
+      //body: jsonEncode(<String, String>{'username': user, 'password': pass}),
+      body: {'username': user.value.text, 'password': pass.value.text},
     );
-    if (req.statusCode == 200)
+    print(req.request);
+    if (req.statusCode == 200) {
+      AuthModel authentication = GetIt.I<AuthModel>();
+      authentication.fromJson(jsonDecode(req.body));
       print('nice login 🔝');
-    else
+      Navigator.pushNamed(context, ConegRoutes.dashboard);
+    } else
       print('bad req man ❌');
   }
 
@@ -59,14 +66,13 @@ class _HomeState extends State<Home> {
               child: Container(
                 width: 400,
                 child: TextField(
-                  decoration: InputDecoration(
-                      labelText: "Usuário",
-                      labelStyle: TextStyle(color: Colors.white),
-                      border: OutlineInputBorder()),
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                  textAlign: TextAlign.center,
-                  onSubmitted: (text) {},
-                ),
+                    controller: user,
+                    decoration: InputDecoration(
+                        labelText: "Usuário",
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder()),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    textAlign: TextAlign.center),
               ),
             ),
 
@@ -75,14 +81,13 @@ class _HomeState extends State<Home> {
               child: Container(
                 width: 400,
                 child: TextField(
-                  decoration: InputDecoration(
-                      labelText: "Senha",
-                      labelStyle: TextStyle(color: Colors.white),
-                      border: OutlineInputBorder()),
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                  textAlign: TextAlign.center,
-                  onSubmitted: (text) {},
-                ),
+                    controller: pass,
+                    decoration: InputDecoration(
+                        labelText: "Senha",
+                        labelStyle: TextStyle(color: Colors.white),
+                        border: OutlineInputBorder()),
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    textAlign: TextAlign.center),
               ),
             ),
 
