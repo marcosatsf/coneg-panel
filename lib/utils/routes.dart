@@ -1,6 +1,6 @@
 class ConegRoutes {
-  static String dashboard = '/dashboard';
-  static String cadastro = '/cadastro';
-  static String configNotific = '/confignotific';
-  static String configAdm = '/configadm';
+  static const String dashboard = '/dashboard';
+  static const String cadastro = '/cadastro';
+  static const String configNotific = '/confignotific';
+  static const String configAdm = '/configadm';
 }

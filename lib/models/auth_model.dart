@@ -14,10 +14,7 @@ class AuthModel {
     tokenType = '';
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['access_token'] = this.accessToken;
-    data['token_type'] = this.tokenType;
-    return data;
+  String toAuth() {
+    return "$tokenType $accessToken";
   }
 }

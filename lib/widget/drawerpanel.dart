@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:coneg/utils/routes.dart';
+import 'package:coneg/models/auth_model.dart';
+import 'package:get_it/get_it.dart';
 
 class DrawerPanel extends StatelessWidget {
   const DrawerPanel({
@@ -48,7 +50,7 @@ class DrawerPanel extends StatelessWidget {
             title: Text('Dashboard'),
             leading: Icon(Icons.dashboard_rounded),
             onTap: () {
-              Navigator.pushNamed(context, ConegRoutes.dashboard);
+              Navigator.popAndPushNamed(context, ConegRoutes.dashboard);
               // context.vxNav.push(
               //   Uri.parse(ConegRoutes.dashboard),
               // );
@@ -58,7 +60,7 @@ class DrawerPanel extends StatelessWidget {
             title: Text('Cadastro de Pessoas'),
             leading: Icon(Icons.add_box_rounded),
             onTap: () {
-              Navigator.pushNamed(context, ConegRoutes.cadastro);
+              Navigator.popAndPushNamed(context, ConegRoutes.cadastro);
               // context.vxNav.push(Uri.parse(ConegRoutes.cadastro));
             },
           ),
@@ -66,7 +68,7 @@ class DrawerPanel extends StatelessWidget {
             title: Text('Configuração de Notificação'),
             leading: Icon(Icons.notification_important_rounded),
             onTap: () {
-              Navigator.pushNamed(context, ConegRoutes.configNotific);
+              Navigator.popAndPushNamed(context, ConegRoutes.configNotific);
               // context.vxNav.push(Uri.parse(ConegRoutes.configNotific));
             },
           ),
@@ -74,7 +76,7 @@ class DrawerPanel extends StatelessWidget {
             title: Text('Configuração do Administrador'),
             leading: Icon(Icons.miscellaneous_services_rounded),
             onTap: () {
-              Navigator.pushNamed(context, ConegRoutes.configAdm);
+              Navigator.popAndPushNamed(context, ConegRoutes.configAdm);
               // context.vxNav.push(Uri.parse(ConegRoutes.configAdm));
             },
           ),
@@ -82,8 +84,9 @@ class DrawerPanel extends StatelessWidget {
             title: Text('Sair'),
             leading: Icon(Icons.exit_to_app_rounded),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              AuthModel authentication = GetIt.I<AuthModel>();
+              authentication.logout();
+              Navigator.popUntil(context, ModalRoute.withName('/'));
             },
           ),
         ],

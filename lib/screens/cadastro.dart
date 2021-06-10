@@ -1,5 +1,12 @@
+import 'dart:io';
+
+import 'package:coneg/models/auth_model.dart';
+import 'package:coneg/models/request_model.dart';
 import 'package:coneg/utils/routes.dart';
+import 'package:coneg/widget/appbarpanel.dart';
+import 'package:coneg/widget/drawerpanel.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:universal_html/html.dart' as html;
 import 'dart:typed_data';
 import 'dart:async';
@@ -51,9 +58,11 @@ class _CadastroState extends State<Cadastro> {
   }
 
   Future makeRequestMultipart() async {
-    http.MultipartRequest req =
-        http.MultipartRequest("POST", Uri.parse("http://api:5000/upload"));
-
+    AuthModel authentication = GetIt.I<AuthModel>();
+    http.MultipartRequest req = http.MultipartRequest(
+        "POST", Uri.parse("${RequestConeg.route}/upload"));
+    req.headers
+        .addAll({HttpHeaders.authorizationHeader: authentication.toAuth()});
     req.files.add(await http.MultipartFile.fromBytes('file_rec', _selectedZip,
         contentType: MediaType('multipart', 'form-data'),
         filename: 'uploaded_file.zip'));
@@ -118,50 +127,52 @@ class _CadastroState extends State<Cadastro> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        title: Text('A Flutter Web file picker'),
-      ),
-      body: Container(
-        child: Form(
-            key: _formKey,
-            child: Padding(
-              padding: EdgeInsets.only(top: 16, left: 28),
-              child: Container(
-                width: 350,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    MaterialButton(
-                      onPressed: () {
-                        _webFilePicker();
-                      },
-                      color: Colors.pink,
-                      elevation: 10,
-                      highlightElevation: 2,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      textColor: Colors.white,
-                      child: Text('Selecione um arquivo'),
-                    ),
-                    Divider(
-                      color: Colors.teal,
-                    ),
-                    MaterialButton(
-                      onPressed: () {
-                        makeRequestMultipart();
-                      },
-                      child: Text('Enviar arquivo para servidor'),
-                      color: Colors.purple,
-                      elevation: 10,
-                      textColor: Colors.white,
-                    ),
-                  ],
-                ),
+    // SafeArea(
+    //     child: Scaffold(
+    //   drawer: DrawerPanel(),
+    //   appBar: AppBarPanel(
+    //     height: 60,
+    //   ),
+    //   backgroundColor: Color(0xFF006E68),
+    //   body:
+    return Container(
+      child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.only(top: 16, left: 28),
+            child: Container(
+              width: 350,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  MaterialButton(
+                    onPressed: () {
+                      _webFilePicker();
+                    },
+                    color: Colors.pink,
+                    elevation: 10,
+                    highlightElevation: 2,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    textColor: Colors.white,
+                    child: Text('Selecione um arquivo'),
+                  ),
+                  Divider(
+                    color: Colors.teal,
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      makeRequestMultipart();
+                    },
+                    child: Text('Enviar arquivo para servidor'),
+                    color: Colors.purple,
+                    elevation: 10,
+                    textColor: Colors.white,
+                  ),
+                ],
               ),
-            )),
-      ),
-    ));
+            ),
+          )),
+    );
   }
 }

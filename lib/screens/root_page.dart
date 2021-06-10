@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:coneg/widget/appbarpanel.dart';
 import 'package:coneg/widget/drawerpanel.dart';
 
-//Substitute by root_page
-class NotificacaoConfig extends StatelessWidget {
+class RootPageConeg extends StatelessWidget {
+  final Widget object;
+  final CrossAxisAlignment cAA;
+  RootPageConeg({this.object, this.cAA});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,19 +14,15 @@ class NotificacaoConfig extends StatelessWidget {
         appBar: AppBarPanel(
           height: 60,
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF006E68),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: cAA,
           children: <Widget>[
             Container(
               color: Color(0xFF17DFD3),
               height: 50,
             ),
-            //This will change in each page
-            Container(
-              color: Colors.blue.shade800,
-              height: 200,
-            ),
+            object,
           ],
         ));
   }
