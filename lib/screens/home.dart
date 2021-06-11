@@ -16,8 +16,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final user = TextEditingController();
-  final pass = TextEditingController();
+  TextEditingController user = TextEditingController();
+  TextEditingController pass = TextEditingController();
   Color _c_purple = const Color(0xFF970062);
   Color _c_blue = const Color(0xFF1F41B4);
 
@@ -27,6 +27,8 @@ class _HomeState extends State<Home> {
 
   void uiResponse(String resp2user, http.Response resp) {
     setState(() {
+      user.clear();
+      pass.clear();
       heightCont = 80;
       userResp = resp2user;
       colorResp = resp.statusCode == 200 ? Colors.green.shade900 : Colors.red;
@@ -83,6 +85,7 @@ class _HomeState extends State<Home> {
             ),
             Divider(
               height: 50,
+              color: Colors.transparent,
             ),
             //This will change in each page
             Container(
@@ -100,10 +103,19 @@ class _HomeState extends State<Home> {
                           width: 400,
                           child: TextFormField(
                             controller: user,
+                            onFieldSubmitted: (value) {},
                             decoration: InputDecoration(
-                                labelText: "Usuário",
-                                labelStyle: TextStyle(color: _c_blue),
-                                border: OutlineInputBorder()),
+                              labelText: "Usuário",
+                              labelStyle: TextStyle(color: _c_blue),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xFF23A39B), width: 2.0),
+                              ),
+                            ),
                             style: TextStyle(color: _c_blue, fontSize: 18),
                             textAlign: TextAlign.center,
                             validator: (value) {
@@ -119,11 +131,20 @@ class _HomeState extends State<Home> {
                           width: 400,
                           child: TextFormField(
                             controller: pass,
+                            onFieldSubmitted: (value) {},
                             obscureText: true,
                             decoration: InputDecoration(
-                                labelText: "Senha",
-                                labelStyle: TextStyle(color: _c_blue),
-                                border: OutlineInputBorder()),
+                              labelText: "Senha",
+                              labelStyle: TextStyle(color: _c_blue),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.blue, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xFF23A39B), width: 2.0),
+                              ),
+                            ),
                             style: TextStyle(color: _c_blue, fontSize: 18),
                             textAlign: TextAlign.center,
                             validator: (value) {

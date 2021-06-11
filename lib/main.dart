@@ -40,7 +40,9 @@ void main() {
         case ConegRoutes.cadastro:
           return NoAnimRoute(
             builder: (context) => RootPageConeg(
-                object: Cadastro(), cAA: CrossAxisAlignment.center),
+              object: Cadastro(),
+              cAA: CrossAxisAlignment.center,
+            ),
             settings: settings,
           );
         case ConegRoutes.configNotific:
