@@ -57,7 +57,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/ConEg.png
+    - assets/images/scheme-register.png
     - assets/helpCadastroGeral.txt
+    - assets/helpCadastroUnico.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -8,6 +8,10 @@ import 'package:http/http.dart' as http;
 class RequestConeg {
   static final String route = 'http://localhost:5000';
 
+  Uri _generateUri(String end) {
+    return Uri.parse('$route$end');
+  }
+
   Map<String, String> _generateHeaders({String contentType, bool isAuth}) {
     if (isAuth) {
       AuthModel authentication = GetIt.I<AuthModel>();
@@ -20,10 +24,18 @@ class RequestConeg {
     }
   }
 
+  Future<Map> getJsonAuth({String endpoint}) async {
+    var res = await http.get(
+      _generateUri(endpoint),
+      headers: _generateHeaders(contentType: 'application/json', isAuth: true),
+    );
+    return jsonDecode(res.body);
+  }
+
   Future<http.Response> postForm(
       {String endpoint, Map<String, String> data}) async {
     return http.post(
-      Uri.parse('$route$endpoint'),
+      _generateUri(endpoint),
       headers: _generateHeaders(
           contentType: 'application/x-www-form-urlencoded', isAuth: false),
       //body: jsonEncode(<String, String>{'username': user, 'password': pass}),
@@ -34,7 +46,7 @@ class RequestConeg {
   Future<http.Response> postFormAuth(
       {String endpoint, Map<String, String> data}) async {
     return http.post(
-      Uri.parse('$route$endpoint'),
+      _generateUri(endpoint),
       headers: _generateHeaders(
           contentType: 'application/x-www-form-urlencoded', isAuth: true),
       body: data,
@@ -65,7 +77,7 @@ class RequestConeg {
   Future<http.Response> postJsonAuth(
       {String endpoint, Map<String, String> data}) async {
     return http.post(
-      Uri.parse('$route$endpoint'),
+      _generateUri(endpoint),
       headers: _generateHeaders(contentType: 'application/json', isAuth: true),
       body: jsonEncode(data),
     );

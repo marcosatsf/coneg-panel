@@ -19,18 +19,18 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class Cadastro extends StatefulWidget {
+class CadastroCompleto extends StatefulWidget {
   @override
-  _CadastroState createState() => _CadastroState();
+  _CadastroCompletoState createState() => _CadastroCompletoState();
 }
 
-class _CadastroState extends State<Cadastro> {
+class _CadastroCompletoState extends State<CadastroCompleto> {
   List<int> _selectedZip;
   Uint8List _bytesData;
   GlobalKey _formKey = new GlobalKey();
   html.Worker cadastroWorker;
   String fileName = 'Não selecionado...';
-  ConegDesign cadastroDesign = ConegDesign();
+  ConegDesign cadastroDesign = GetIt.I<ConegDesign>();
   String cadastro = "Cadastro Geral";
   bool helpWindow = false;
   String helpText = '';
@@ -47,7 +47,8 @@ class _CadastroState extends State<Cadastro> {
       setState(() {
         widthHelp = 0;
       });
-    spawnDialog(context, "Ajuda em Cadastro Geral", helpText);
+    spawnDialog(context, "Ajuda em Cadastro Geral", helpText,
+        cadastroDesign.getPurple());
   }
 
   Future<String> loadAsset() async {
@@ -97,11 +98,15 @@ class _CadastroState extends State<Cadastro> {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print("Uploaded!");
-        spawnDialog(context, "Status do upload", "Uploaded com sucesso!");
+        spawnDialog(context, "Status do upload", "Uploaded com sucesso!",
+            cadastroDesign.getPurple());
       } else {
         print("Not uploaded! ${response.statusCode}");
-        spawnDialog(context, "Status do upload",
-            "Não foi possível realizar o cadastro! Por favor clique no ícone '?' para entender melhor o padrão do arquivo!");
+        spawnDialog(
+            context,
+            "Status do upload",
+            "Não foi possível realizar o cadastro! Por favor clique no ícone '?' para entender melhor o padrão do arquivo!",
+            cadastroDesign.getPurple());
       }
     });
   }
@@ -214,35 +219,80 @@ class _CadastroState extends State<Cadastro> {
     );
   }
 
-  Future spawnDialog(BuildContext context, String title, String text) {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: new Text(title),
-              //content: new Text("Hello World"),
-              content: new SingleChildScrollView(
-                child: new ListBody(
-                  children: [
-                    new Text(text),
-                  ],
-                ),
+  // Future spawnDialog(BuildContext context, String title, String text) {
+  //   return showDialog(
+  //       barrierDismissible: false,
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //             title: new Text(title),
+  //             //content: new Text("Hello World"),
+  //             content: new SingleChildScrollView(
+  //               child: new ListBody(
+  //                 children: [
+  //                   Text(text),
+  //                   Image.asset(
+  //                     'assets/images/scheme-register.png',
+  //                     height: 400,
+  //                     width: 400,
+  //                     isAntiAlias: true,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             actions: [
+  //               MaterialButton(
+  //                 onPressed: () {
+  //                   Navigator.pop(context);
+  //                 },
+  //                 color: cadastroDesign.getPurple(),
+  //                 elevation: 10,
+  //                 highlightElevation: 2,
+  //                 shape: RoundedRectangleBorder(
+  //                     borderRadius: BorderRadius.circular(20)),
+  //                 textColor: Colors.white,
+  //                 child: Text('OK'),
+  //               )
+  //             ]);
+  //       });
+  // }
+}
+
+Future spawnDialog(
+    BuildContext context, String title, String text, Color color) {
+  return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            title: new Text(title),
+            //content: new Text("Hello World"),
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: [
+                  Text(text),
+                  Image.asset(
+                    'assets/images/scheme-register.png',
+                    height: 500,
+                    width: 500,
+                    isAntiAlias: true,
+                  ),
+                ],
               ),
-              actions: [
-                MaterialButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  color: cadastroDesign.getPurple(),
-                  elevation: 10,
-                  highlightElevation: 2,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  textColor: Colors.white,
-                  child: Text('OK'),
-                )
-              ]);
-        });
-  }
+            ),
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                color: color,
+                elevation: 10,
+                highlightElevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                textColor: Colors.white,
+                child: Text('OK'),
+              )
+            ]);
+      });
 }

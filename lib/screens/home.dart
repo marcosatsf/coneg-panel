@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:coneg/models/auth_model.dart';
+import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/models/request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -18,9 +19,7 @@ class _HomeState extends State<Home> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController user = TextEditingController();
   TextEditingController pass = TextEditingController();
-  Color _c_purple = const Color(0xFF970062);
-  Color _c_blue = const Color(0xFF1F41B4);
-
+  ConegDesign homeDesign = GetIt.I<ConegDesign>();
   double heightCont = 0;
   String userResp = '';
   Color colorResp = Colors.black;
@@ -106,7 +105,8 @@ class _HomeState extends State<Home> {
                             onFieldSubmitted: (value) {},
                             decoration: InputDecoration(
                               labelText: "Usuário",
-                              labelStyle: TextStyle(color: _c_blue),
+                              labelStyle:
+                                  TextStyle(color: homeDesign.getBlue()),
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.blue, width: 2.0),
@@ -116,7 +116,8 @@ class _HomeState extends State<Home> {
                                     color: Color(0xFF23A39B), width: 2.0),
                               ),
                             ),
-                            style: TextStyle(color: _c_blue, fontSize: 18),
+                            style: TextStyle(
+                                color: homeDesign.getBlue(), fontSize: 18),
                             textAlign: TextAlign.center,
                             validator: (value) {
                               if (value.isEmpty)
@@ -135,7 +136,8 @@ class _HomeState extends State<Home> {
                             obscureText: true,
                             decoration: InputDecoration(
                               labelText: "Senha",
-                              labelStyle: TextStyle(color: _c_blue),
+                              labelStyle:
+                                  TextStyle(color: homeDesign.getBlue()),
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.blue, width: 2.0),
@@ -145,7 +147,8 @@ class _HomeState extends State<Home> {
                                     color: Color(0xFF23A39B), width: 2.0),
                               ),
                             ),
-                            style: TextStyle(color: _c_blue, fontSize: 18),
+                            style: TextStyle(
+                                color: homeDesign.getBlue(), fontSize: 18),
                             textAlign: TextAlign.center,
                             validator: (value) {
                               if (value.isEmpty)
@@ -163,7 +166,7 @@ class _HomeState extends State<Home> {
                             onPressed: () {
                               if (_formKey.currentState.validate()) tryLogin();
                             },
-                            color: _c_purple,
+                            color: homeDesign.getPurple(),
                             elevation: 10,
                             highlightElevation: 2,
                             shape: RoundedRectangleBorder(

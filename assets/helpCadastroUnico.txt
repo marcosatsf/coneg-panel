@@ -1,0 +1,3 @@
+Para enviar um cadastro bem sucedido de uma pessoa, insira o nome, email e telefone desta.
+Também é necessário selecionar uma imagem (jpeg) desta pessoa, nomeada com a sua futura identificação .
+Fique atento, pois caso já exista a identificação de uma pessoa, esta será sobrescrita.

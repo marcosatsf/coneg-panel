@@ -1,14 +1,15 @@
 import 'package:coneg/models/auth_model.dart';
+import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/screens/root_page.dart';
 import 'package:coneg/ui/piechart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:url_strategy/url_strategy.dart';
+// import 'package:url_strategy/url_strategy.dart';
 import 'package:coneg/screens/home.dart';
 import 'package:coneg/utils/routes.dart';
-import 'package:coneg/screens/dashboard.dart';
+// import 'package:coneg/screens/dashboard.dart';
 import 'package:coneg/screens/cadastro.dart';
 import 'package:coneg/screens/notificacao.dart';
 import 'package:coneg/screens/configuracao.dart';
@@ -20,6 +21,7 @@ void main() {
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
   GetIt.I.registerSingleton(AuthModel());
+  GetIt.I.registerSingleton(ConegDesign());
   //setPathUrlStrategy();
   runApp(MaterialApp(
     title: 'ConEg-Front',
@@ -34,25 +36,37 @@ void main() {
         case ConegRoutes.dashboard:
           return NoAnimRoute(
             builder: (context) => RootPageConeg(
-                object: CustomPieChart(), cAA: CrossAxisAlignment.stretch),
+              object: CustomPieChart(),
+              cAA: CrossAxisAlignment.stretch,
+              masterRoute: ConegRoutes.dashboard,
+            ),
             settings: settings,
           );
         case ConegRoutes.cadastro:
           return NoAnimRoute(
             builder: (context) => RootPageConeg(
-              object: Cadastro(),
+              object: CadastroCompleto(),
               cAA: CrossAxisAlignment.center,
+              masterRoute: ConegRoutes.cadastro,
             ),
             settings: settings,
           );
         case ConegRoutes.configNotific:
           return NoAnimRoute(
-            builder: (context) => NotificacaoConfig(),
+            builder: (context) => RootPageConeg(
+              object: NotificacaoConfig(),
+              cAA: CrossAxisAlignment.center,
+              masterRoute: ConegRoutes.configNotific,
+            ),
             settings: settings,
           );
         case ConegRoutes.configAdm:
           return NoAnimRoute(
-            builder: (context) => Configuracao(),
+            builder: (context) => RootPageConeg(
+              object: Configuracao(),
+              cAA: CrossAxisAlignment.center,
+              masterRoute: ConegRoutes.configAdm,
+            ),
             settings: settings,
           );
         default:
