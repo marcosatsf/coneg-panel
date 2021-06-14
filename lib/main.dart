@@ -24,7 +24,7 @@ void main() {
   GetIt.I.registerSingleton(ConegDesign());
   //setPathUrlStrategy();
   runApp(MaterialApp(
-    title: 'ConEg-Front',
+    title: "ConEg - Controle Epidemiológico de Grupo",
     initialRoute: '/',
     onGenerateRoute: (settings) {
       switch (settings.name) {

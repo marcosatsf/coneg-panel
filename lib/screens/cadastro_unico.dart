@@ -98,7 +98,8 @@ class _CadastroUnicoState extends State<CadastroUnico> {
     req.fields['telefone'] = telefone.value.text;
     req.files.add(await http.MultipartFile.fromBytes('file_rec', _selectedZip,
         contentType: MediaType('multipart', 'form-data'), filename: fileName));
-
+    print(req.fields);
+    print(req.files);
     req.send().then((response) {
       print(response.statusCode);
       if (response.statusCode == 200) {
@@ -263,6 +264,8 @@ class _CadastroUnicoState extends State<CadastroUnico> {
                           validator: (value) {
                             if (value.isEmpty)
                               return "Telefone não pode ser vazio!";
+                            if (!value.contains(RegExp(r'[0-9#* ]')))
+                              return "Não condiz com um padrão de telefone!";
                           },
                         ),
                       ),

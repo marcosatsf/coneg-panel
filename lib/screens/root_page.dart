@@ -29,8 +29,8 @@ class _RootPageConegState extends State<RootPageConeg> {
 
   _RootPageConegState(this.masterRoute, this.cAA, this.currentObject);
 
-  SingleChildScrollView _loadRowSubMenu(String route) {
-    Map<String, Widget> mappedRoute = ConegRoutes().getSubRoutesFrom(route);
+  SingleChildScrollView _loadRowSubMenu(
+      String route, Map<String, Widget> mappedRoute) {
     ConegDesign design = GetIt.I<ConegDesign>();
     List<Widget> rowButtons = List.empty(growable: true);
     if (mappedRoute.isNotEmpty) {
@@ -100,7 +100,21 @@ class _RootPageConegState extends State<RootPageConeg> {
                 color: Color(0xFF17DFD3),
                 height: 50,
               ),
-              _loadRowSubMenu(masterRoute),
+              FutureBuilder(
+                future: ConegRoutes().getSubRoutesFrom(masterRoute),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return _loadRowSubMenu(masterRoute, snapshot.data);
+                  } else {
+                    if (currentMenu == null)
+                      return CircularProgressIndicator(
+                        backgroundColor: ConegDesign().getPurple(),
+                      );
+                    else
+                      return currentMenu;
+                  }
+                },
+              )
             ]),
             currentObject,
           ],

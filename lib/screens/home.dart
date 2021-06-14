@@ -102,7 +102,6 @@ class _HomeState extends State<Home> {
                           width: 400,
                           child: TextFormField(
                             controller: user,
-                            onFieldSubmitted: (value) {},
                             decoration: InputDecoration(
                               labelText: "Usuário",
                               labelStyle:
