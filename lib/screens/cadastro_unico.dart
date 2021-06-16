@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:coneg/models/auth_model.dart';
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/models/request_model.dart';
+import 'package:coneg/ui/help_view.dart';
 import 'package:coneg/utils/routes.dart';
 import 'package:coneg/widget/appbarpanel.dart';
 import 'package:coneg/widget/drawerpanel.dart';
@@ -35,28 +36,7 @@ class _CadastroUnicoState extends State<CadastroUnico> {
   String fileName = 'Não selecionado...';
   ConegDesign cadastroDesign = GetIt.I<ConegDesign>();
   String cadastro = "Cadastro Único";
-  bool helpWindow = false;
-  String helpText = '';
-  double widthHelp = 0;
-
-  void _showHelp() async {
-    helpWindow = !helpWindow;
-    if (helpText.isEmpty) helpText = await loadAsset();
-    if (helpWindow)
-      setState(() {
-        widthHelp = 400;
-      });
-    else
-      setState(() {
-        widthHelp = 0;
-      });
-    spawnDialog(context, "Ajuda em Cadastro Geral", helpText,
-        cadastroDesign.getPurple());
-  }
-
-  Future<String> loadAsset() async {
-    return await rootBundle.loadString('assets/helpCadastroUnico.txt');
-  }
+  HelpView helpCadastroUnico = HelpView('assets/helpCadastroUnico.txt');
 
   void _handleResult(Object result) {
     setState(() {
@@ -104,15 +84,19 @@ class _CadastroUnicoState extends State<CadastroUnico> {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print("Uploaded!");
-        spawnDialog(context, "Status do upload", "Uploaded com sucesso!",
-            cadastroDesign.getPurple());
+        helpCadastroUnico.showInfo(
+            context, "Status do upload", "Uploaded com sucesso!");
+        // spawnDialog(context, "Status do upload", "Uploaded com sucesso!",
+        //     cadastroDesign.getPurple());
       } else {
         print("Not uploaded! ${response.statusCode}");
-        spawnDialog(
-            context,
-            "Status do upload",
-            "Não foi possível realizar o cadastro! Por favor clique no ícone '?' para entender melhor o padrão do arquivo!",
-            cadastroDesign.getPurple());
+        helpCadastroUnico.showInfo(context, "Status do upload",
+            "Não foi possível realizar o cadastro! Por favor verifique se todos os campos estão preenchidos e contém uma imagem JPG");
+        // spawnDialog(
+        //     context,
+        //     "Status do upload",
+        //     "Não foi possível realizar o cadastro! Por favor clique no ícone '?' para entender melhor o padrão do arquivo!",
+        //     cadastroDesign.getPurple());
       }
     });
   }
@@ -159,7 +143,8 @@ class _CadastroUnicoState extends State<CadastroUnico> {
                           color: cadastroDesign.getPurple(),
                         ),
                         onPressed: () {
-                          _showHelp();
+                          helpCadastroUnico.showHelp(
+                              context, "Ajuda em Cadastro Único");
                         })),
               ],
             )),
@@ -307,7 +292,8 @@ class _CadastroUnicoState extends State<CadastroUnico> {
                         height: 50,
                         child: MaterialButton(
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState.validate() &&
+                                fileName != null) {
                               makeRequestMultipart();
                               print('nice dude!');
                             }
@@ -352,43 +338,4 @@ class _CadastroUnicoState extends State<CadastroUnico> {
       ],
     );
   }
-}
-
-Future spawnDialog(
-    BuildContext context, String title, String text, Color color) {
-  return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-            title: new Text(title),
-            //content: new Text("Hello World"),
-            content: new SingleChildScrollView(
-              child: new ListBody(
-                children: [
-                  Text(text),
-                  Image.asset(
-                    'assets/images/scheme-register.png',
-                    height: 500,
-                    width: 500,
-                    isAntiAlias: true,
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                color: color,
-                elevation: 10,
-                highlightElevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                textColor: Colors.white,
-                child: Text('OK'),
-              )
-            ]);
-      });
 }

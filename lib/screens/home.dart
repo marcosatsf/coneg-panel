@@ -49,7 +49,6 @@ class _HomeState extends State<Home> {
     var req = await RequestConeg().postForm(
         endpoint: '/token',
         data: {'username': user.value.text, 'password': pass.value.text});
-    print(req.request);
     if (req.statusCode == 200) {
       print('nice login 🔝');
       uiResponse('Login bem sucedido!', req);

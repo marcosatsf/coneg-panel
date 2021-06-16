@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:coneg/models/auth_model.dart';
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/models/request_model.dart';
+import 'package:coneg/ui/help_view.dart';
 import 'package:coneg/utils/routes.dart';
 import 'package:coneg/widget/appbarpanel.dart';
 import 'package:coneg/widget/drawerpanel.dart';
@@ -32,34 +33,16 @@ class _CadastroCompletoState extends State<CadastroCompleto> {
   String fileName = 'Não selecionado...';
   ConegDesign cadastroDesign = GetIt.I<ConegDesign>();
   String cadastro = "Cadastro Geral";
-  bool helpWindow = false;
-  String helpText = '';
-  double widthHelp = 0;
-
-  void _showHelp() async {
-    helpWindow = !helpWindow;
-    if (helpText.isEmpty) helpText = await loadAsset();
-    if (helpWindow)
-      setState(() {
-        widthHelp = 400;
-      });
-    else
-      setState(() {
-        widthHelp = 0;
-      });
-    spawnDialog(context, "Ajuda em Cadastro Geral", helpText,
-        cadastroDesign.getPurple());
-  }
-
-  Future<String> loadAsset() async {
-    return await rootBundle.loadString('assets/helpCadastroGeral.txt');
-  }
+  // bool helpWindow = false;
+  // String helpText = '';
+  // double widthHelp = 0;
+  HelpView helpCadastroGeral = HelpView(
+      'assets/helpCadastroGeral.txt', 'assets/images/scheme-register.png');
 
   void _handleResult(Object result) {
     setState(() {
       _bytesData = Base64Decoder().convert(result.toString().split(",").last);
       _selectedZip = _bytesData;
-      // _selectedZip = result;
     });
   }
 
@@ -98,15 +81,19 @@ class _CadastroCompletoState extends State<CadastroCompleto> {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print("Uploaded!");
-        spawnDialog(context, "Status do upload", "Uploaded com sucesso!",
-            cadastroDesign.getPurple());
+        helpCadastroGeral.showInfo(
+            context, "Status do upload", "Uploaded com sucesso!");
+        // spawnDialog(context, "Status do upload", "Uploaded com sucesso!",
+        //     cadastroDesign.getPurple());
       } else {
         print("Not uploaded! ${response.statusCode}");
-        spawnDialog(
-            context,
-            "Status do upload",
-            "Não foi possível realizar o cadastro! Por favor clique no ícone '?' para entender melhor o padrão do arquivo!",
-            cadastroDesign.getPurple());
+        helpCadastroGeral.showInfo(context, "Status do upload",
+            "Não foi possível realizar o cadastro! Por favor clique no ícone '?' para entender melhor o padrão do arquivo!");
+        // spawnDialog(
+        //     context,
+        //     "Status do upload",
+        //     "Não foi possível realizar o cadastro! Por favor clique no ícone '?' para entender melhor o padrão do arquivo!",
+        //     cadastroDesign.getPurple());
       }
     });
   }
@@ -153,7 +140,8 @@ class _CadastroCompletoState extends State<CadastroCompleto> {
                           color: cadastroDesign.getPurple(),
                         ),
                         onPressed: () {
-                          _showHelp();
+                          helpCadastroGeral.showHelp(
+                              context, "Ajuda em Cadastro Geral");
                         })),
               ],
             )),
@@ -200,7 +188,11 @@ class _CadastroCompletoState extends State<CadastroCompleto> {
                       flex: 1,
                       child: MaterialButton(
                         onPressed: () {
-                          makeRequestMultipart();
+                          if (_selectedZip == null)
+                            helpCadastroGeral.showInfo(context, 'Erro',
+                                'Selecione um cadastro antes de enviá-lo!');
+                          else
+                            makeRequestMultipart();
                         },
                         color: cadastroDesign.getPurple(),
                         elevation: 10,
@@ -256,43 +248,4 @@ class _CadastroCompletoState extends State<CadastroCompleto> {
   //             ]);
   //       });
   // }
-}
-
-Future spawnDialog(
-    BuildContext context, String title, String text, Color color) {
-  return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-            title: new Text(title),
-            //content: new Text("Hello World"),
-            content: new SingleChildScrollView(
-              child: new ListBody(
-                children: [
-                  Text(text),
-                  Image.asset(
-                    'assets/images/scheme-register.png',
-                    height: 500,
-                    width: 500,
-                    isAntiAlias: true,
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                color: color,
-                elevation: 10,
-                highlightElevation: 2,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                textColor: Colors.white,
-                child: Text('OK'),
-              )
-            ]);
-      });
 }

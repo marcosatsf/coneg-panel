@@ -7,7 +7,9 @@ import 'package:coneg/screens/configuracao.dart';
 import 'package:coneg/screens/dashboard_cam.dart';
 import 'package:coneg/ui/piechart.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
+import 'package:universal_html/js_util.dart';
 
 class ConegRoutes {
   static const String dashboard = '/dashboard';
@@ -37,5 +39,16 @@ class ConegRoutes {
       }
     }
     return mappedRoutes[route];
+  }
+
+  Future<Map<String, String>> getCurrentNotification() async {
+    Map<String, String> res =
+        await RequestConeg().getJsonAuth(endpoint: '/current_notif');
+    return res;
+  }
+
+  void setCurrentNotification(Map<String, String> map) async {
+    var res =
+        await RequestConeg().postJsonAuth(endpoint: '/update_notif', data: map);
   }
 }

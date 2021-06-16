@@ -6,7 +6,7 @@ Este arquivo csv deve conter as seguintes colunas:
 - email;
 - telefone;
 
-Seguido de uma pasta com uma imagem (jpeg) de cada pessoa cadastrada. É importante lembrar que o nome da imagem deve ser igual à identificação da pessoa no arquivo de cadastro .csv;
+Seguido de uma pasta com uma imagem (JPG) de cada pessoa cadastrada. É importante lembrar que o nome da imagem deve ser igual à identificação da pessoa no arquivo de cadastro .csv;
 
 Com esses conjutos de arquivos em mãos, compacte para .zip e você estará pronto para selecionar o arquivo!
 

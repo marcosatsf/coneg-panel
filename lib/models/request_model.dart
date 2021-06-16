@@ -32,6 +32,17 @@ class RequestConeg {
     return jsonDecode(res.body);
   }
 
+  Future<http.Response> postJsonAuth(
+      {String endpoint, Map<String, String> data}) async {
+    var req = await http.post(
+      _generateUri(endpoint),
+      headers: _generateHeaders(contentType: 'application/json', isAuth: true),
+      body: jsonEncode(data),
+    );
+    print(req.request);
+    return req;
+  }
+
   Future<http.Response> postForm(
       {String endpoint, Map<String, String> data}) async {
     return http.post(
@@ -74,12 +85,4 @@ class RequestConeg {
   //   );
   // }
 
-  Future<http.Response> postJsonAuth(
-      {String endpoint, Map<String, String> data}) async {
-    return http.post(
-      _generateUri(endpoint),
-      headers: _generateHeaders(contentType: 'application/json', isAuth: true),
-      body: jsonEncode(data),
-    );
-  }
 }
