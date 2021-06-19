@@ -17,54 +17,58 @@ class _DashboardState extends State<CustomPieChart> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(20),
-          child: Container(
-            height: 500,
-            width: 500,
-            child: PieChart(
-              PieChartData(
-                  pieTouchData: //TODO - Manipulate Variables
-                      PieTouchData(touchCallback: (pieTouchResponse) {
-                    setState(() {
-                      //Check clicks
-                      final desiredTouch =
-                          pieTouchResponse.touchInput is! PointerExitEvent &&
+        Row(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                height: 400,
+                width: 400,
+                child: PieChart(
+                  PieChartData(
+                      pieTouchData: //TODO - Manipulate Variables
+                          PieTouchData(touchCallback: (pieTouchResponse) {
+                        setState(() {
+                          //Check clicks
+                          final desiredTouch = pieTouchResponse.touchInput
+                                  is! PointerExitEvent &&
                               pieTouchResponse.touchInput is! PointerUpEvent;
 
-                      if (desiredTouch &&
-                          pieTouchResponse.touchedSection != null) {
-                        //Not clicks and section is not null
-                        touchedIndex =
-                            pieTouchResponse.touchedSection.touchedSectionIndex;
-                      } else if (!desiredTouch &&
-                          pieTouchResponse.touchedSection != null) {
-                        if (doubleClick ==
-                            pieTouchResponse
-                                .touchedSection.touchedSectionIndex) {
-                          heightCont = 0;
-                          doubleClick = null;
-                        } else {
-                          doubleClick = pieTouchResponse
-                              .touchedSection.touchedSectionIndex;
-                          //There's a click and section is not null
-                          colorCont = pieTouchResponse
-                              .touchedSection.touchedSection.color
-                              .withOpacity(0.6);
-                          heightCont = 500;
-                        }
-                      } else {
-                        touchedIndex = -1;
-                      }
-                    });
-                  }),
-                  startDegreeOffset: 180,
-                  sections: showingSections(),
-                  centerSpaceRadius: 0),
-              swapAnimationDuration: Duration(milliseconds: 500),
-              swapAnimationCurve: Curves.linear,
+                          if (desiredTouch &&
+                              pieTouchResponse.touchedSection != null) {
+                            //Not clicks and section is not null
+                            touchedIndex = pieTouchResponse
+                                .touchedSection.touchedSectionIndex;
+                          } else if (!desiredTouch &&
+                              pieTouchResponse.touchedSection != null) {
+                            if (doubleClick ==
+                                pieTouchResponse
+                                    .touchedSection.touchedSectionIndex) {
+                              heightCont = 0;
+                              doubleClick = null;
+                            } else {
+                              doubleClick = pieTouchResponse
+                                  .touchedSection.touchedSectionIndex;
+                              //There's a click and section is not null
+                              colorCont = pieTouchResponse
+                                  .touchedSection.touchedSection.color
+                                  .withOpacity(0.6);
+                              heightCont = 200;
+                            }
+                          } else {
+                            touchedIndex = -1;
+                          }
+                        });
+                      }),
+                      startDegreeOffset: 180,
+                      sections: showingSections(),
+                      centerSpaceRadius: 0),
+                  swapAnimationDuration: Duration(milliseconds: 500),
+                  swapAnimationCurve: Curves.linear,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
         Padding(
           padding: EdgeInsets.all(20),
@@ -87,7 +91,7 @@ class _DashboardState extends State<CustomPieChart> {
 
   List<PieChartSectionData> showingSections() {
     return List.generate(
-      4,
+      3,
       (i) {
         final isTouched = i == touchedIndex;
         final double opacity = isTouched ? 1 : 0.6;
@@ -97,7 +101,7 @@ class _DashboardState extends State<CustomPieChart> {
               color: const Color(0xff0293ee).withOpacity(opacity),
               value: 25,
               title: 'Test',
-              radius: 200,
+              radius: 150,
               showTitle: true,
               titleStyle: TextStyle(
                   fontSize: 18,
@@ -109,8 +113,8 @@ class _DashboardState extends State<CustomPieChart> {
             return PieChartSectionData(
               color: const Color(0xfff8b250).withOpacity(opacity),
               value: 25,
-              title: '',
-              radius: 200,
+              title: 'T2',
+              radius: 150,
               titleStyle: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -121,26 +125,26 @@ class _DashboardState extends State<CustomPieChart> {
             return PieChartSectionData(
               color: const Color(0xff845bef).withOpacity(opacity),
               value: 25,
-              title: '',
-              radius: 200,
+              title: 'T3',
+              radius: 150,
               titleStyle: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: const Color(0xff4c3788)),
-              titlePositionPercentageOffset: 0.6,
-            );
-          case 3:
-            return PieChartSectionData(
-              color: const Color(0xff13d38e).withOpacity(opacity),
-              value: 25,
-              title: '',
-              radius: 200,
-              titleStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff0c7f55)),
               titlePositionPercentageOffset: 0.55,
             );
+          // case 3:
+          //   return PieChartSectionData(
+          //     color: const Color(0xff13d38e).withOpacity(opacity),
+          //     value: 25,
+          //     title: '',
+          //     radius: 200,
+          //     titleStyle: TextStyle(
+          //         fontSize: 18,
+          //         fontWeight: FontWeight.bold,
+          //         color: const Color(0xff0c7f55)),
+          //     titlePositionPercentageOffset: 0.55,
+          //   );
           default:
             return null;
         }

@@ -36,8 +36,8 @@ void main() {
         case ConegRoutes.dashboard:
           return NoAnimRoute(
             builder: (context) => RootPageConeg(
-              object: CustomPieChart(),
-              cAA: CrossAxisAlignment.stretch,
+              object: Container(),
+              cAA: CrossAxisAlignment.center,
               masterRoute: ConegRoutes.dashboard,
             ),
             settings: settings,

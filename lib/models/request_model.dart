@@ -24,23 +24,24 @@ class RequestConeg {
     }
   }
 
-  Future<Map> getJsonAuth({String endpoint}) async {
+  Future<Map<String, dynamic>> getJsonAuth({String endpoint}) async {
     var res = await http.get(
       _generateUri(endpoint),
       headers: _generateHeaders(contentType: 'application/json', isAuth: true),
     );
-    return jsonDecode(res.body);
+    print(res.body);
+    return json.decode(utf8.decode(res.bodyBytes));
   }
 
-  Future<http.Response> postJsonAuth(
-      {String endpoint, Map<String, String> data}) async {
+  Future<void> postJsonAuth(
+      {String endpoint, Map<String, dynamic> data}) async {
     var req = await http.post(
       _generateUri(endpoint),
       headers: _generateHeaders(contentType: 'application/json', isAuth: true),
       body: jsonEncode(data),
     );
     print(req.request);
-    return req;
+    print(req.body);
   }
 
   Future<http.Response> postForm(

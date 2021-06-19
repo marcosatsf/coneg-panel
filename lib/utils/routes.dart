@@ -31,24 +31,27 @@ class ConegRoutes {
 
   Future<Map<String, Widget>> getSubRoutesFrom(String route) async {
     if (route == dashboard) {
-      mappedRoutes[dashboard] = {'Resumo Geral': CustomPieChart()};
-      // TODO route list every inspector location
+      mappedRoutes[dashboard] = {
+        'Resumo Geral': Container(
+          height: 50,
+          color: Colors.amber,
+        )
+      };
       var res = await RequestConeg().getJsonAuth(endpoint: '/inpector_list');
       for (var cam in res['cams']) {
-        mappedRoutes[dashboard].addAll({cam: DashboardCam(cam)});
+        mappedRoutes[dashboard].addAll({cam: DashboardCam()});
       }
     }
     return mappedRoutes[route];
   }
 
-  Future<Map<String, String>> getCurrentNotification() async {
-    Map<String, String> res =
+  Future<Map<String, dynamic>> getCurrentNotification() async {
+    Map<String, dynamic> res =
         await RequestConeg().getJsonAuth(endpoint: '/current_notif');
     return res;
   }
 
-  void setCurrentNotification(Map<String, String> map) async {
-    var res =
-        await RequestConeg().postJsonAuth(endpoint: '/update_notif', data: map);
+  Future<void> setCurrentNotification(Map<String, dynamic> map) async {
+    await RequestConeg().postJsonAuth(endpoint: '/update_notif', data: map);
   }
 }

@@ -87,40 +87,41 @@ class _RootPageConegState extends State<RootPageConeg> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: DrawerPanel(),
-        appBar: AppBarPanel(
-          height: 60,
-        ),
-        backgroundColor: Color(0xFF006E68),
-        body: Column(
-          crossAxisAlignment: cAA,
-          children: <Widget>[
-            Stack(alignment: AlignmentDirectional.center, children: <Widget>[
-              Container(
-                color: Color(0xFF17DFD3),
-                height: 50,
-              ),
-              FutureBuilder(
-                future: ConegRoutes().getSubRoutesFrom(masterRoute),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    return _loadRowSubMenu(masterRoute, snapshot.data);
-                  } else {
-                    if (currentMenu == null)
-                      return CircularProgressIndicator(
-                        backgroundColor: ConegDesign().getPurple(),
-                      );
-                    else
-                      return currentMenu;
-                  }
-                },
-              )
-            ]),
-            currentObject,
-          ],
-          // GetIt.I<ConegBuilder>()
-          //     .loadCurrentWidget(route: masterRoute, object: object),
-        ));
+      drawer: DrawerPanel(),
+      appBar: AppBarPanel(
+        height: 60,
+      ),
+      backgroundColor: Color(0xFF006E68),
+      body: Column(
+        crossAxisAlignment: cAA,
+        children: <Widget>[
+          Stack(alignment: AlignmentDirectional.center, children: <Widget>[
+            Container(
+              color: Color(0xFF17DFD3),
+              height: 50,
+            ),
+            FutureBuilder(
+              future: ConegRoutes().getSubRoutesFrom(masterRoute),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return _loadRowSubMenu(masterRoute, snapshot.data);
+                } else {
+                  if (currentMenu == null)
+                    return CircularProgressIndicator(
+                      backgroundColor: ConegDesign().getPurple(),
+                    );
+                  else
+                    return currentMenu;
+                }
+              },
+            )
+          ]),
+          currentObject,
+        ],
+        // GetIt.I<ConegBuilder>()
+        //     .loadCurrentWidget(route: masterRoute, object: object),
+      ),
+    );
   }
 }
 
