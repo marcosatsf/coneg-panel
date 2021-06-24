@@ -39,7 +39,11 @@ class ConegRoutes {
       };
       var res = await RequestConeg().getJsonAuth(endpoint: '/inpector_list');
       for (var cam in res['cams']) {
-        mappedRoutes[dashboard].addAll({cam: DashboardCam()});
+        mappedRoutes[dashboard].addAll({
+          cam: DashboardCam(
+            local: cam,
+          )
+        });
       }
     }
     return mappedRoutes[route];

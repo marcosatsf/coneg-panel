@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:coneg/models/builder.dart';
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/utils/routes.dart';
+import 'package:coneg/widget/buttonBar.dart';
 import 'package:flutter/material.dart';
 import 'package:coneg/widget/appbarpanel.dart';
 import 'package:coneg/widget/drawerpanel.dart';
@@ -23,66 +27,58 @@ class RootPageConeg extends StatefulWidget {
 }
 
 class _RootPageConegState extends State<RootPageConeg> {
-  Widget currentMenu, currentObject;
+  Widget currentObject;
   CrossAxisAlignment cAA;
   String masterRoute;
 
+  ConegDesign design = GetIt.I<ConegDesign>();
+  List<Text> rowButtons = List.empty(growable: true);
+  List<bool> rowButtonsSelected = List.empty(growable: true);
+  List<Widget> rowButtonsContent = List.empty(growable: true);
+  Map<String, Widget> camList = Map();
+
+  Timer t;
+
   _RootPageConegState(this.masterRoute, this.cAA, this.currentObject);
 
-  SingleChildScrollView _loadRowSubMenu(
-      String route, Map<String, Widget> mappedRoute) {
-    ConegDesign design = GetIt.I<ConegDesign>();
-    List<Widget> rowButtons = List.empty(growable: true);
-    if (mappedRoute.isNotEmpty) {
-      for (var key in mappedRoute.keys) {
-        if (mappedRoute[key].toStringShallow() ==
-            currentObject.toStringShallow()) {
-          rowButtons.add(Padding(
-            padding: EdgeInsets.only(left: 80, right: 80),
-            child: MaterialButton(
-              onPressed: () {
-                setState(() {
-                  currentObject = mappedRoute[key];
-                });
-              },
-              color: design.getBlue(),
-              elevation: 10,
-              highlightElevation: 2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              textColor: Colors.white,
-              child: Text(key),
-            ),
-          ));
-        } else {
-          rowButtons.add(Padding(
-            padding: EdgeInsets.only(left: 80, right: 80),
-            child: MaterialButton(
-              onPressed: () {
-                setState(() {
-                  currentObject = mappedRoute[key];
-                });
-              },
-              color: design.getPurple(),
-              elevation: 10,
-              highlightElevation: 2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              textColor: Colors.white,
-              child: Text(key),
-            ),
-          ));
-        }
-      }
-    }
-    currentMenu = SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(left: 80, right: 80),
-        child: Row(
-          children: rowButtons,
-        ));
-    return currentMenu;
+  @override
+  void initState() {
+    super.initState();
+    _loadRes(masterRoute);
+    // t = Timer.periodic(Duration(seconds: 5), (e) => print(e.tick));
   }
+
+  // @override
+  // void dispose() {
+  //   t.cancel();
+  //   super.dispose();
+  // }
+
+  void _loadRes(String map) async {
+    camList = await ConegRoutes().getSubRoutesFrom(map);
+
+    rowButtons = List.empty(growable: true);
+    rowButtonsSelected = List.empty(growable: true);
+    rowButtonsContent = List.empty(growable: true);
+
+    rowButtonsSelected.add(true);
+    for (var i = 1; i < camList.length; i++) rowButtonsSelected.add(false);
+
+    setState(() {
+      for (var key in camList.keys) {
+        rowButtons.add(Text(key));
+        rowButtonsContent.add(camList[key]);
+      }
+    });
+  }
+
+  // currentMenu = SingleChildScrollView(
+  //     scrollDirection: Axis.horizontal,
+  //     padding: EdgeInsets.only(left: 80, right: 80),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //       children: rowButtons,
+  //     ));
 
   @override
   Widget build(BuildContext context) {
@@ -100,23 +96,23 @@ class _RootPageConegState extends State<RootPageConeg> {
               color: Color(0xFF17DFD3),
               height: 50,
             ),
-            FutureBuilder(
-              future: ConegRoutes().getSubRoutesFrom(masterRoute),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return _loadRowSubMenu(masterRoute, snapshot.data);
-                } else {
-                  if (currentMenu == null)
-                    return CircularProgressIndicator(
-                      backgroundColor: ConegDesign().getPurple(),
-                    );
-                  else
-                    return currentMenu;
-                }
-              },
-            )
+            if (rowButtons.isNotEmpty)
+              CustomButtonBar(
+                children: rowButtons,
+                isSelected: rowButtonsSelected,
+                onPressed: (index) {
+                  setState(() {
+                    currentObject = rowButtonsContent[index];
+                    rowButtonsSelected =
+                        rowButtonsSelected.map((e) => false).toList();
+                    rowButtonsSelected[index] = true;
+                  });
+                },
+              )
           ]),
-          currentObject,
+          SingleChildScrollView(
+            child: currentObject,
+          ),
         ],
         // GetIt.I<ConegBuilder>()
         //     .loadCurrentWidget(route: masterRoute, object: object),

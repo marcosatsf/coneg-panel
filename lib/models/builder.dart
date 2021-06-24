@@ -4,44 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class ConegBuilder {
-  String masterRoute = '/';
-  Widget currentMenu, currentObject;
+  List<Text> rowButtons;
+  List<bool> rowButtonsSelected;
+  List<Widget> rowButtonsContent;
+  Map<String, Widget> camList;
 
-  ConegBuilder();
-
-  dynamic _loadRowSubMenu(String route) async {
-    Map<String, Widget> mappedRoute =
-        await ConegRoutes().getSubRoutesFrom(route);
-    ConegDesign design = GetIt.I<ConegDesign>();
-    if (mappedRoute.isNotEmpty) {
-      List<Widget> rowButtons = List.empty(growable: true);
-      for (var key in mappedRoute.keys) {
-        rowButtons.add(Padding(
-          padding: EdgeInsets.only(left: 80, right: 80),
-          child: MaterialButton(
-            onPressed: () {},
-            color: design.getPurple(),
-            elevation: 10,
-            highlightElevation: 2,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            textColor: Colors.white,
-            child: Text(key),
-          ),
-        ));
-      }
-      currentMenu = SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(left: 80, right: 80),
-          child: Row(
-            children: rowButtons,
-          ));
-      return currentMenu;
-    }
+  ConegBuilder(map) {
+    initButtons(map);
   }
 
-  Widget loadCurrentWidget({String route, Widget object}) {
-    currentObject = object;
-    return currentObject;
+  void initButtons(mapRoute) async {
+    camList = await ConegRoutes().getSubRoutesFrom(mapRoute);
+  }
+
+  loadButtonVars() {
+    rowButtons = List.empty(growable: true);
+    rowButtonsSelected = List.empty(growable: true);
+    rowButtonsContent = List.empty(growable: true);
+
+    rowButtonsSelected.add(true);
+    for (var i = 1; i < camList.length; i++) rowButtonsSelected.add(false);
+
+    for (var key in camList.keys) {
+      rowButtons.add(Text(key));
+      rowButtonsContent.add(camList[key]);
+    }
   }
 }

@@ -125,7 +125,7 @@ class _NotificacaoConfigState extends State<NotificacaoConfig> {
                         ),
                       ),
                       Flexible(
-                        flex: 1,
+                        flex: 2,
                         child: Padding(
                           padding: EdgeInsets.all(20),
                           child: TextField(
@@ -148,7 +148,7 @@ class _NotificacaoConfigState extends State<NotificacaoConfig> {
                         ),
                       ),
                       Flexible(
-                        flex: 1,
+                        flex: 2,
                         child: Padding(
                           padding: EdgeInsets.all(20),
                           child: TextField(

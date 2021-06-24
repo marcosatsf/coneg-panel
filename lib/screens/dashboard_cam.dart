@@ -5,20 +5,47 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:math';
 
 class DashboardCam extends StatefulWidget {
-  const DashboardCam({Key key}) : super(key: key);
+  DashboardCam({Key key, this.local}) : super(key: key);
+
+  final String local;
 
   @override
-  _DashboardCamState createState() => _DashboardCamState();
+  _DashboardCamState createState() => _DashboardCamState(local);
 }
 
 class _DashboardCamState extends State<DashboardCam> {
+  String local;
+
+  _DashboardCamState(this.local);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 600,
-      height: 600,
-      child: SimplePieChart.withRandomData(),
-    );
+        width: 900,
+        height: 800,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 400,
+                  width: 450,
+                  color: Colors.amber,
+                ),
+                Container(
+                  height: 400,
+                  width: 450,
+                  child: SimplePieChart.withRandomData(),
+                ),
+              ],
+            ),
+            Container(
+              height: 400,
+              width: 900,
+              color: Colors.blue,
+            )
+          ],
+        ));
   }
 }
 // //Substitute by root_page
@@ -68,9 +95,6 @@ class SimplePieChart extends StatelessWidget {
       new LinearSales(2, random.nextInt(100)),
       new LinearSales(3, random.nextInt(100)),
     ];
-    for (var item in data) {
-      print(item.sales);
-    }
     return [
       new charts.Series<LinearSales, int>(
         id: 'Sales',
