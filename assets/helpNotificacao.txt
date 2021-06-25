@@ -1,0 +1,7 @@
+Nesta página é possível configurar a notificação que será enviada às pessoas cadastradas que foram capturadas pelas câmeras, não utilizando máscaras.
+
+Ao lado esquerdo, está localizada o conteúdo da notificação e do método utilizado atualmente para enviá-la.
+
+Ao lado direito, é possível configurar a mensagem da notificação e também, o método a qual esta será enviada.
+
+LEMBRE-SE: Caso queira inserir dentro da mensagem, o nome da pessoa a qual receberá a notificação, utilize a palavra "$NOME" (sem aspas duplas).

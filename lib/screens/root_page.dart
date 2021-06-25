@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:coneg/models/builder.dart';
+import 'package:coneg/models/auth_model.dart';
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/utils/routes.dart';
 import 'package:coneg/widget/buttonBar.dart';
@@ -114,52 +113,7 @@ class _RootPageConegState extends State<RootPageConeg> {
             child: currentObject,
           ),
         ],
-        // GetIt.I<ConegBuilder>()
-        //     .loadCurrentWidget(route: masterRoute, object: object),
       ),
     );
   }
 }
-
-// class RootPageConeg extends StatelessWidget {
-//   Widget object;
-//   CrossAxisAlignment cAA;
-//   String masterRoute;
-
-//   RootPageConeg({this.object, this.cAA, this.masterRoute});
-
-// Widget getWidgets(List<String> strings) {
-//   List<Widget> list = List.empty();
-//   for (var item in strings) {
-//     list(Padding(
-//       padding: EdgeInsets.only(left: 80, right: 80),
-//       child: MaterialButton(
-//         onPressed: () {},
-//         color: cadastroDesign.getPurple(),
-//         elevation: 10,
-//         highlightElevation: 2,
-//         shape:
-//             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-//         textColor: Colors.white,
-//         child: Text(item),
-//       ),
-//     ));
-//   }
-//   return new Row(children: list);
-// }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         drawer: DrawerPanel(),
-//         appBar: AppBarPanel(
-//           height: 60,
-//         ),
-//         backgroundColor: Color(0xFF006E68),
-//         body: Column(
-//           crossAxisAlignment: cAA,
-//           children: GetIt.I<ConegBuilder>()
-//               .loadCurrentWidget(route: masterRoute, object: object),
-//         ));
-//   }
-// }

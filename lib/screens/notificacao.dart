@@ -1,4 +1,5 @@
 import 'package:coneg/models/design_color_model.dart';
+import 'package:coneg/ui/help_view.dart';
 import 'package:coneg/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:coneg/widget/appbarpanel.dart';
@@ -21,6 +22,7 @@ class _NotificacaoConfigState extends State<NotificacaoConfig> {
           DropdownMenuItem<String>(value: value, child: Text(value)))
       .toList();
   TextEditingController method_show = TextEditingController();
+  HelpView helpNotificacao = HelpView('assets/helpNotificacao.txt');
   TextEditingController msg_show = TextEditingController();
   TextEditingController msg = TextEditingController();
   ConegDesign notificacaoDesign = ConegDesign();
@@ -83,8 +85,8 @@ class _NotificacaoConfigState extends State<NotificacaoConfig> {
                           color: notificacaoDesign.getPurple(),
                         ),
                         onPressed: () {
-                          print("ok");
-                          //_showHelp();
+                          helpNotificacao.showHelp(
+                              context, "Ajuda em Notificação");
                         })),
               ],
             ),
