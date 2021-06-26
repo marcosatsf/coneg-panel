@@ -24,12 +24,18 @@ class RequestConeg {
     }
   }
 
-  Future<Map<String, dynamic>> getJsonAuth({String endpoint}) async {
+  Future<Map<String, dynamic>> getJsonAuth(
+      {String endpoint, List<String> query}) async {
+    if (query != null) {
+      String tmp = 'where_which=${query[0]}';
+      for (var i = 1; i < query.length; i++) tmp += '.${query[i]}';
+      endpoint = '$endpoint?$tmp';
+    }
     var res = await http.get(
       _generateUri(endpoint),
       headers: _generateHeaders(contentType: 'application/json', isAuth: true),
     );
-    print(res.body);
+    //print(res.body);
     return json.decode(utf8.decode(res.bodyBytes));
   }
 

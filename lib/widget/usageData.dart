@@ -3,15 +3,22 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:math';
 
 class UsageData extends StatelessWidget {
-  const UsageData({Key key}) : super(key: key);
+  final List data;
+
+  UsageData({this.data});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
       width: 450,
-      child: SimplePieChart.withRandomData(),
+      height: 400,
+      child: SimplePieChart.transformData(data),
     );
+    // return Container(
+    //   height: 400,
+    //   width: 450,
+    //   child: SimplePieChart.withRandomData(),
+    // );
   }
 }
 
@@ -22,61 +29,13 @@ class SimplePieChart extends StatelessWidget {
   SimplePieChart(this.seriesList, {this.animate});
 
   /// Creates a [PieChart] with sample data and no transition.
-  factory SimplePieChart.withSampleData() {
+  factory SimplePieChart.transformData(List data) {
     return new SimplePieChart(
-      _createSampleData(),
+      _createSampleData(data),
       // Disable animations for image tests.
-      animate: false,
+      animate: true,
     );
   }
-
-  // EXCLUDE_FROM_GALLERY_DOCS_START
-  // This section is excluded from being copied to the gallery.
-  // It is used for creating random series data to demonstrate animation in
-  // the example app only.
-  factory SimplePieChart.withRandomData() {
-    return new SimplePieChart(_createRandomData());
-  }
-
-  /// Create random data.
-  static List<charts.Series<LinearSales, int>> _createRandomData() {
-    final random = new Random();
-
-    final data = [
-      new LinearSales(0, random.nextInt(100)),
-      new LinearSales(1, random.nextInt(100)),
-      new LinearSales(2, random.nextInt(100)),
-      new LinearSales(3, random.nextInt(100)),
-    ];
-    return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        colorFn: (LinearSales sales, _) {
-          switch (sales.year) {
-            case 0:
-              return charts.ColorUtil.fromDartColor(Colors.red.shade700);
-              break;
-            case 1:
-              return charts.ColorUtil.fromDartColor(Colors.blue.shade700);
-              break;
-            case 2:
-              return charts.ColorUtil.fromDartColor(Colors.amber.shade700);
-              break;
-            case 3:
-              return charts.ColorUtil.fromDartColor(Colors.green.shade700);
-              break;
-            default:
-              return charts.ColorUtil.fromDartColor(Colors.amber.shade700);
-          }
-        },
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
-        labelAccessorFn: (LinearSales row, _) => '${row.year}: ${row.sales}',
-      )
-    ];
-  }
-  // EXCLUDE_FROM_GALLERY_DOCS_END
 
   @override
   Widget build(BuildContext context) {
@@ -87,30 +46,45 @@ class SimplePieChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
-    final data = [
-      new LinearSales(0, 100),
-      new LinearSales(1, 75),
-      new LinearSales(2, 25),
-      new LinearSales(3, 5),
+  static List<charts.Series<LinearCases, int>> _createSampleData(List data) {
+    final dataList = [
+      new LinearCases(data[0][0], data[0][1]),
+      new LinearCases(data[1][0], data[1][1]),
+      new LinearCases(data[2][0], data[2][1]),
     ];
 
     return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
-        labelAccessorFn: (LinearSales row, _) => '${row.year}: ${row.sales}',
+      new charts.Series<LinearCases, int>(
+        id: 'Status',
+        domainFn: (LinearCases sales, _) => sales.status,
+        measureFn: (LinearCases sales, _) => sales.qtd,
+        colorFn: (LinearCases sales, _) {
+          switch (sales.status) {
+            case 0:
+              return charts.ColorUtil.fromDartColor(Colors.green);
+              break;
+            case 1:
+              return charts.ColorUtil.fromDartColor(Colors.yellow);
+              break;
+            case 2:
+              return charts.ColorUtil.fromDartColor(Colors.red);
+              break;
+            default:
+              return charts.ColorUtil.fromDartColor(Colors.blue.shade800);
+              break;
+          }
+        },
+        data: dataList,
+        labelAccessorFn: (LinearCases row, _) => '${row.status}: ${row.qtd}',
       )
     ];
   }
 }
 
 /// Sample linear data type.
-class LinearSales {
-  final int year;
-  final int sales;
+class LinearCases {
+  final int status;
+  final int qtd;
 
-  LinearSales(this.year, this.sales);
+  LinearCases(this.status, this.qtd);
 }
