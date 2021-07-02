@@ -6,9 +6,11 @@ class HelpView {
   // bool helpWindow = false;
   String msg = '';
   String imgAssetPath = '';
+  double h;
+  double w;
   Color color;
 
-  HelpView(String assetPath, [this.imgAssetPath]) {
+  HelpView(String assetPath, [this.imgAssetPath, this.h, this.w]) {
     loadAsset(assetPath);
     color = ConegDesign().getPurple();
   }
@@ -64,8 +66,8 @@ class HelpView {
                       Text(msg),
                       Image.asset(
                         imgAssetPath, //'assets/images/scheme-register.png',
-                        height: 500,
-                        width: 500,
+                        height: h,
+                        width: w,
                         isAntiAlias: true,
                       ),
                     ],

@@ -59,9 +59,12 @@ flutter:
   assets:
     - assets/images/ConEg.png
     - assets/images/scheme-register.png
+    - assets/images/semanal-help.png
     - assets/helpCadastroGeral.txt
     - assets/helpCadastroUnico.txt
     - assets/helpNotificacao.txt
+    - assets/helpSemanal.txt
+    - assets/helpUsage.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

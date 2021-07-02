@@ -109,9 +109,7 @@ class _RootPageConegState extends State<RootPageConeg> {
                 },
               )
           ]),
-          SingleChildScrollView(
-            child: currentObject,
-          ),
+          currentObject,
         ],
       ),
     );

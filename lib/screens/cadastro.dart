@@ -36,8 +36,8 @@ class _CadastroCompletoState extends State<CadastroCompleto> {
   // bool helpWindow = false;
   // String helpText = '';
   // double widthHelp = 0;
-  HelpView helpCadastroGeral = HelpView(
-      'assets/helpCadastroGeral.txt', 'assets/images/scheme-register.png');
+  HelpView helpCadastroGeral = HelpView('assets/helpCadastroGeral.txt',
+      'assets/images/scheme-register.png', 500, 500);
 
   void _handleResult(Object result) {
     setState(() {

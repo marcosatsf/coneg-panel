@@ -1,0 +1,7 @@
+Neste quadro é possível verificar dados da utilização de máscaras em relação ao cadastramento das pessoas no sistema, dado os números totais de cada grupo.
+
+Os grupos são definidos da seguinte forma:
+
+ - Verde: Pessoas utilizando máscara;
+ - Amarelo: Pessoas não utilizando máscara e não cadastradas no sistema ConEg;
+ - Vermelho: Pessoas não utilizando máscara e cadastradas no sistema ConEg;

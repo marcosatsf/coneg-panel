@@ -1,17 +1,25 @@
+import 'package:coneg/models/design_color_model.dart';
+import 'package:coneg/ui/help_view.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:get_it/get_it.dart';
 
 class WeeklyData extends StatelessWidget {
   final Map<String, dynamic> data;
+  final bool animate;
 
-  WeeklyData({this.data});
+  WeeklyData({this.data, this.animate});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          color: Color(0xFF17DFD3),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: Border.all(width: 5, color: Color(0xFF23A39B))),
       width: 450,
       height: 400,
-      child: SelectionCallbackExample.transformData(data),
+      child: SelectionCallbackExample.transformData(data, animate),
     );
     // return Container(
     //   height: 400,
@@ -28,11 +36,12 @@ class SelectionCallbackExample extends StatefulWidget {
   SelectionCallbackExample(this.seriesList, {this.animate});
 
   /// Creates a [charts.TimeSeriesChart] with sample data and no transition.
-  factory SelectionCallbackExample.transformData(Map<String, dynamic> map) {
+  factory SelectionCallbackExample.transformData(
+      Map<String, dynamic> map, bool animate) {
     return new SelectionCallbackExample(
       _createSampleData(map),
       // Disable animations for image tests.
-      animate: true,
+      animate: animate,
     );
   }
 
@@ -60,21 +69,22 @@ class SelectionCallbackExample extends StatefulWidget {
     return [
       new charts.Series<TimeSeriesCases, DateTime>(
         id: 'Status 0',
-        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.green),
         domainFn: (TimeSeriesCases sales, _) => sales.time,
         measureFn: (TimeSeriesCases sales, _) => sales.qtd,
         data: status0,
       ),
       new charts.Series<TimeSeriesCases, DateTime>(
         id: 'Status 1',
-        colorFn: (_, __) => charts.MaterialPalette.yellow.shadeDefault,
+        colorFn: (_, __) =>
+            charts.ColorUtil.fromDartColor(Colors.yellow.shade700),
         domainFn: (TimeSeriesCases sales, _) => sales.time,
         measureFn: (TimeSeriesCases sales, _) => sales.qtd,
         data: status1,
       ),
       new charts.Series<TimeSeriesCases, DateTime>(
         id: 'Status 2',
-        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.red),
         domainFn: (TimeSeriesCases sales, _) => sales.time,
         measureFn: (TimeSeriesCases sales, _) => sales.qtd,
         data: status2,
@@ -86,6 +96,10 @@ class SelectionCallbackExample extends StatefulWidget {
 class _SelectionCallbackState extends State<SelectionCallbackExample> {
   DateTime _time;
   Map<String, num> _measures;
+  ConegDesign weeklyDesign = GetIt.I<ConegDesign>();
+  String weeklyData = "Registro semanal";
+  HelpView helpWeeklyData = HelpView(
+      'assets/helpSemanal.txt', 'assets/images/semanal-help.png', 300, 400);
 
   // Listens to the underlying selection changes, and updates the information
   // relevant to building the primitive legend like information under the
@@ -119,64 +133,61 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
   Widget build(BuildContext context) {
     // The children consist of a Chart and Text widgets below to hold the info.
     final children = <Widget>[
-      Row(
-        children: [
-          SizedBox(
-              height: 300,
-              width: 450,
-              child: new charts.TimeSeriesChart(
-                widget.seriesList,
-                animate: widget.animate,
-                selectionModels: [
-                  new charts.SelectionModelConfig(
-                    type: charts.SelectionModelType.info,
-                    changedListener: _onSelectionChanged,
-                  )
+      Padding(
+          padding: EdgeInsets.all(1),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: <Widget>[
+                  // Stroked text as border.
+                  Text(
+                    weeklyData,
+                    style: TextStyle(
+                      fontSize: 18,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 6
+                        ..color = weeklyDesign.getBlue(),
+                    ),
+                  ),
+                  // Solid text as fill.
+                  Text(
+                    weeklyData,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey[300],
+                    ),
+                  ),
                 ],
-              )),
-          // SizedBox(
-          //     height: 350,
-          //     child: Column(
-          //       children: <Widget>[
-          //         Row(
-          //           children: [
-          //             Text(
-          //               'Status 0',
-          //               style: TextStyle(color: Colors.white),
-          //             ),
-          //             Icon(
-          //               Icons.check_box_outlined,
-          //               color: Colors.green,
-          //             ),
-          //           ],
-          //         ),
-          //         Row(
-          //           children: [
-          //             Text(
-          //               'Status 1',
-          //               style: TextStyle(color: Colors.white),
-          //             ),
-          //             Icon(
-          //               Icons.indeterminate_check_box_outlined,
-          //               color: Colors.yellow,
-          //             ),
-          //           ],
-          //         ),
-          //         Row(
-          //           children: [
-          //             Text(
-          //               'Status 2',
-          //               style: TextStyle(color: Colors.white),
-          //             ),
-          //             Icon(
-          //               Icons.indeterminate_check_box_outlined,
-          //               color: Colors.red,
-          //             ),
-          //           ],
-          //         ),
-          //       ],
-          //     ))
-        ],
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: IconButton(
+                      splashRadius: 10,
+                      icon: Icon(
+                        Icons.help_outline_rounded,
+                        color: weeklyDesign.getPurple(),
+                      ),
+                      onPressed: () {
+                        helpWeeklyData.showHelp(
+                            context, "Ajuda em Registro Semanal");
+                      })),
+            ],
+          )),
+      SizedBox(
+        height: 250,
+        width: 420,
+        child: new charts.TimeSeriesChart(
+          widget.seriesList,
+          animate: widget.animate,
+          selectionModels: [
+            new charts.SelectionModelConfig(
+              type: charts.SelectionModelType.info,
+              changedListener: _onSelectionChanged,
+            )
+          ],
+        ),
       ),
     ];
 
@@ -186,7 +197,7 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
           padding: new EdgeInsets.only(top: 5.0, bottom: 5.0),
           child: new Text(
             "Data: ${_time.day}/${_time.month}/${_time.year}",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           )));
     }
     _measures?.forEach((String series, num value) {
@@ -196,30 +207,34 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
               child: Text(
                 'Utilizando máscara [qtd]: $value',
-                style: TextStyle(color: Colors.green),
+                style:
+                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
               )));
           break;
         case 'Status 1':
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
               child: Text(
-                'Sem máscara e sem cadastro [qtd]: $value',
-                style: TextStyle(color: Colors.yellow),
+                'Desconhecido sem máscara [qtd]: $value',
+                style: TextStyle(
+                    color: Colors.yellow.shade700, fontWeight: FontWeight.bold),
               )));
           break;
         case 'Status 2':
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
               child: Text(
-                'Sem máscara e cadastrado [qtd]: $value',
-                style: TextStyle(color: Colors.red),
+                'Cadastrado sem máscara [qtd]: $value',
+                style:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
               )));
           break;
         default:
       }
     });
 
-    return new Column(children: children);
+    return new Column(
+        crossAxisAlignment: CrossAxisAlignment.center, children: children);
   }
 }
 

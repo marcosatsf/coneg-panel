@@ -1,0 +1,5 @@
+Neste quadro é possível verificar dados da utilização de máscaras em relação ao cadastramento das pessoas no sistema.
+
+É possível analisar mais a fundo um dado, ao selecionar uma data dentro do gráfico semanal, seguindo a imagem abaixo.
+
+Exemplo:
