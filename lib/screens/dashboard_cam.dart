@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/models/request_model.dart';
+import 'package:coneg/widget/dailyData.dart';
 import 'package:coneg/widget/infoData.dart';
 import 'package:coneg/widget/usageData.dart';
 import 'package:coneg/widget/weeklyData.dart';
@@ -46,7 +47,7 @@ class _DashboardCamState extends State<DashboardCam> {
   void _loadData(String where, bool option) async {
     res = await RequestConeg().getJsonAuth(
         endpoint: '/route_info',
-        query: [where, "weeklydata", "usagedata", "infodata"]);
+        query: [where, "weeklydata", "usagedata", "infodata", "dailydata"]);
     DateTime now = DateTime.now();
     setState(() {
       nowInfoFormatted = DateFormat('dd/MM/yyyy - HH:mm').format(now);
@@ -63,6 +64,10 @@ class _DashboardCamState extends State<DashboardCam> {
         data: res['infodata'],
         titulo: "Estatística de $where",
       );
+      _build['dailydata'] = DailyData(
+        data: res['dailydata'],
+        animate: option,
+      );
     });
     print(res);
   }
@@ -73,64 +78,52 @@ class _DashboardCamState extends State<DashboardCam> {
     super.dispose();
   }
 
+  Widget _buildContainer(Widget childWidget, {double h, double w}) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Color(0xFF17DFD3),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: Border.all(width: 5, color: Color(0xFF23A39B))),
+      child: childWidget,
+      height: h != null ? h : 900,
+      width: w != null ? w : 900,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(8),
-        width: 900,
+        width: 1000,
         height: 800,
         child: Column(
           children: [
-            Padding(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Tooltip(
-                      message: "Última vez atualizado em $nowInfoFormatted",
-                      child: Stack(
-                        children: <Widget>[
-                          // Stroked text as border.
-                          Text(
-                            "Dashboard de $local",
-                            style: TextStyle(
-                              fontSize: 22,
-                              foreground: Paint()
-                                ..style = PaintingStyle.stroke
-                                ..strokeWidth = 6
-                                ..color = design.getBlue(),
-                            ),
-                          ),
-                          // Solid text as fill.
-                          Text(
-                            "Dashboard de $local",
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.grey[300],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                )),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: _build['weeklydata'],
+                Column(
+                  children: <Widget>[
+                    _buildContainer(_build['weeklydata'], h: 400, w: 450),
+                    _buildContainer(_build['infodata'], h: 380, w: 450),
+                  ],
                 ),
-                Expanded(
-                  child: _build['usagedata'],
+                Column(
+                  children: <Widget>[
+                    _buildContainer(_build['dailydata'], h: 400, w: 450),
+                    _buildContainer(_build['usagedata'], h: 380, w: 450),
+                  ],
                 ),
-                //WeeklyData(data: res['weeklydata']),
-                //UsageData(),
+                Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Tooltip(
+                      message: "Última vez atualizado em $nowInfoFormatted",
+                      child: Icon(
+                        Icons.help_outline_rounded,
+                        color: design.getPurple(),
+                      ),
+                    )),
               ],
             ),
-            Expanded(
-              child: _build['infodata'],
-            ),
-            //InfoData(),
           ],
         ));
   }

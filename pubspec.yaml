@@ -65,6 +65,7 @@ flutter:
     - assets/helpNotificacao.txt
     - assets/helpSemanal.txt
     - assets/helpUsage.txt
+    - assets/helpDiario.txt
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

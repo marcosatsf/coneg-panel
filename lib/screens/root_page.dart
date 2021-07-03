@@ -81,6 +81,7 @@ class _RootPageConegState extends State<RootPageConeg> {
 
   @override
   Widget build(BuildContext context) {
+    print('passei build');
     return Scaffold(
       drawer: DrawerPanel(),
       appBar: AppBarPanel(
@@ -109,7 +110,9 @@ class _RootPageConegState extends State<RootPageConeg> {
                 },
               )
           ]),
-          currentObject,
+          SingleChildScrollView(
+            child: currentObject,
+          )
         ],
       ),
     );

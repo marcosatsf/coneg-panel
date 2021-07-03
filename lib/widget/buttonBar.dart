@@ -2,27 +2,27 @@ import 'package:coneg/models/design_color_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class CustomButtonBar extends StatefulWidget {
-  const CustomButtonBar(
-      {Key key, this.children, this.isSelected, this.onPressed})
-      : super(key: key);
+// class CustomButtonBar extends StatefulWidget {
+//   const CustomButtonBar(
+//       {Key key, this.children, this.isSelected, this.onPressed})
+//       : super(key: key);
 
+//   final List<Widget> children;
+//   final List<bool> isSelected;
+//   final Function(int) onPressed;
+
+//   @override
+//   _CustomButtonBarState createState() =>
+//       _CustomButtonBarState(children, isSelected, onPressed);
+// }
+
+class CustomButtonBar extends StatelessWidget {
   final List<Widget> children;
   final List<bool> isSelected;
   final Function(int) onPressed;
+  final ConegDesign design = GetIt.I<ConegDesign>();
 
-  @override
-  _CustomButtonBarState createState() =>
-      _CustomButtonBarState(children, isSelected, onPressed);
-}
-
-class _CustomButtonBarState extends State<CustomButtonBar> {
-  List<Widget> children;
-  List<bool> isSelected;
-  Function(int) onPressed;
-  ConegDesign design = GetIt.I<ConegDesign>();
-
-  _CustomButtonBarState(this.children, this.isSelected, this.onPressed);
+  CustomButtonBar({this.children, this.isSelected, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

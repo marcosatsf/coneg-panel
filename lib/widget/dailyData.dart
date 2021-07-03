@@ -1,15 +1,15 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/ui/help_view.dart';
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 
-class WeeklyData extends StatelessWidget {
+class DailyData extends StatelessWidget {
   final Map<String, dynamic> data;
   final bool animate;
 
-  WeeklyData({this.data, this.animate});
+  DailyData({this.data, this.animate});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class WeeklyData extends StatelessWidget {
     // return Container(
     //   height: 400,
     //   width: 450,
-    //   //child: SelectionCallbackExample.withSampleData(),
+    //   child: SimplePieChart.withRandomData(),
     // );
   }
 }
@@ -89,10 +89,9 @@ class SelectionCallbackExample extends StatefulWidget {
 class _SelectionCallbackState extends State<SelectionCallbackExample> {
   DateTime _time;
   Map<String, num> _measures;
-  ConegDesign weeklyDesign = GetIt.I<ConegDesign>();
-  String weeklyData = "Registro semanal";
-  HelpView helpWeeklyData = HelpView(
-      'assets/helpSemanal.txt', 'assets/images/semanal-help.png', 300, 400);
+  ConegDesign dailyDesign = GetIt.I<ConegDesign>();
+  String dailyData = "Registro diário atual";
+  HelpView helpDailyData = HelpView('assets/helpDiario.txt');
 
   // Listens to the underlying selection changes, and updates the information
   // relevant to building the primitive legend like information under the
@@ -135,18 +134,18 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
                 children: <Widget>[
                   // Stroked text as border.
                   Text(
-                    weeklyData,
+                    dailyData,
                     style: TextStyle(
                       fontSize: 18,
                       foreground: Paint()
                         ..style = PaintingStyle.stroke
                         ..strokeWidth = 6
-                        ..color = weeklyDesign.getBlue(),
+                        ..color = dailyDesign.getBlue(),
                     ),
                   ),
                   // Solid text as fill.
                   Text(
-                    weeklyData,
+                    dailyData,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.grey[300],
@@ -160,11 +159,10 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
                       splashRadius: 10,
                       icon: Icon(
                         Icons.help_outline_rounded,
-                        color: weeklyDesign.getPurple(),
+                        color: dailyDesign.getPurple(),
                       ),
                       onPressed: () {
-                        helpWeeklyData.showHelp(
-                            context, "Ajuda em Registro Semanal");
+                        helpDailyData.showHelp(context, "Ajuda em $dailyData");
                       })),
             ],
           )),
@@ -189,7 +187,8 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
       children.add(new Padding(
           padding: new EdgeInsets.only(top: 5.0, bottom: 5.0),
           child: new Text(
-            DateFormat('dd/MM/yyyy').format(_time),
+            DateFormat('dd/MM/yyyy - HH:mm').format(_time),
+            //"Data: ${_time.day}/${_time.month}/${_time.year}",
             style: TextStyle(color: Colors.black),
           )));
     }

@@ -41,6 +41,7 @@ class ConegRoutes {
       for (var cam in res['cams']) {
         mappedRoutes[dashboard].addAll({
           cam: DashboardCam(
+            key: Key(cam),
             local: cam,
           )
         });

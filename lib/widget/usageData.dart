@@ -2,7 +2,7 @@ import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/ui/help_view.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-
+import 'package:intl/intl.dart';
 import 'package:get_it/get_it.dart';
 
 class UsageData extends StatelessWidget {
@@ -13,15 +13,7 @@ class UsageData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Color(0xFF17DFD3),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          border: Border.all(width: 5, color: Color(0xFF23A39B))),
-      width: 450,
-      height: 400,
-      child: SimplePieChart.transformData(data, animate),
-    );
+    return SimplePieChart.transformData(data, animate);
     // return Container(
     //   height: 400,
     //   width: 450,
@@ -94,7 +86,7 @@ class SimplePieChart extends StatelessWidget {
                         })),
               ]),
               Text(
-                "Data: ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                "Data: ${DateFormat('dd/MM/yyyy').format(DateTime.now())}",
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.black,
@@ -117,7 +109,6 @@ class SimplePieChart extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center, children: children);
   }
 
-  /// Create one series with sample hard coded data.
   static List<charts.Series<LinearCases, String>> _createSampleData(List data) {
     try {
       final dataList = [
