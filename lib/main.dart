@@ -1,5 +1,6 @@
 import 'package:coneg/models/auth_model.dart';
 import 'package:coneg/models/design_color_model.dart';
+import 'package:coneg/screens/dashboard.dart';
 import 'package:coneg/screens/root_page.dart';
 import 'package:coneg/ui/piechart.dart';
 import 'package:flutter/foundation.dart';
@@ -36,9 +37,11 @@ void main() {
         case ConegRoutes.dashboard:
           return NoAnimRoute(
             builder: (context) => RootPageConeg(
-              object: Container(),
+              //TODO: CHANGE TO GENERAL DASH
+              object: Dashboard(),
               cAA: CrossAxisAlignment.center,
               masterRoute: ConegRoutes.dashboard,
+              selected: [true, false, false, false],
             ),
             settings: settings,
           );
@@ -48,6 +51,7 @@ void main() {
               object: CadastroCompleto(),
               cAA: CrossAxisAlignment.center,
               masterRoute: ConegRoutes.cadastro,
+              selected: [false, true, false, false],
             ),
             settings: settings,
           );
@@ -57,6 +61,7 @@ void main() {
               object: NotificacaoConfig(),
               cAA: CrossAxisAlignment.center,
               masterRoute: ConegRoutes.configNotific,
+              selected: [false, false, true, false],
             ),
             settings: settings,
           );
@@ -66,6 +71,7 @@ void main() {
               object: Configuracao(),
               cAA: CrossAxisAlignment.center,
               masterRoute: ConegRoutes.configAdm,
+              selected: [false, false, false, true],
             ),
             settings: settings,
           );
@@ -85,7 +91,8 @@ void main() {
     // },
     theme: ThemeData(
         splashColor: Color(0xFF1F41B4),
-        textTheme: GoogleFonts.ubuntuTextTheme()),
+        textTheme: GoogleFonts.ubuntuTextTheme(),
+        canvasColor: Colors.black54),
   ));
 }
 

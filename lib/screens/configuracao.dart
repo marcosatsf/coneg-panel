@@ -8,7 +8,7 @@ class Configuracao extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.amber.shade800,
-      height: 200,
+      height: 600,
     );
   }
 }

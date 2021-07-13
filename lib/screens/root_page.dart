@@ -14,21 +14,24 @@ class RootPageConeg extends StatefulWidget {
     this.object,
     this.cAA,
     this.masterRoute,
+    this.selected,
   }) : super(key: key);
 
   final Widget object;
   final CrossAxisAlignment cAA;
   final String masterRoute;
+  final List<bool> selected;
 
   @override
   _RootPageConegState createState() =>
-      _RootPageConegState(masterRoute, cAA, object);
+      _RootPageConegState(masterRoute, cAA, object, selected);
 }
 
 class _RootPageConegState extends State<RootPageConeg> {
   Widget currentObject;
   CrossAxisAlignment cAA;
   String masterRoute;
+  List<bool> selected;
 
   ConegDesign design = GetIt.I<ConegDesign>();
   List<Text> rowButtons = List.empty(growable: true);
@@ -38,7 +41,8 @@ class _RootPageConegState extends State<RootPageConeg> {
 
   Timer t;
 
-  _RootPageConegState(this.masterRoute, this.cAA, this.currentObject);
+  _RootPageConegState(
+      this.masterRoute, this.cAA, this.currentObject, this.selected);
 
   @override
   void initState() {
@@ -81,9 +85,10 @@ class _RootPageConegState extends State<RootPageConeg> {
 
   @override
   Widget build(BuildContext context) {
-    print('passei build');
     return Scaffold(
-      drawer: DrawerPanel(),
+      drawer: DrawerPanel(
+        selected: selected,
+      ),
       appBar: AppBarPanel(
         height: 60,
       ),

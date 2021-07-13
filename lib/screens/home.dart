@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:coneg/models/auth_model.dart';
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/models/request_model.dart';
@@ -75,6 +76,7 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.all(10),
                   child: Image.asset(
                     'assets/images/ConEg.png',
+                    isAntiAlias: true,
                     height: 80,
                     width: 80,
                   ),

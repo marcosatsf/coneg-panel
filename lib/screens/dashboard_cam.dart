@@ -26,7 +26,8 @@ class _DashboardCamState extends State<DashboardCam> {
   Map<String, Widget> _build = {
     "weeklydata": CircularProgressIndicator(),
     "usagedata": CircularProgressIndicator(),
-    "infodata": CircularProgressIndicator()
+    "infodata": CircularProgressIndicator(),
+    "dailydata": CircularProgressIndicator()
   };
   Timer caller;
   Duration callerDuration = Duration(minutes: 1);
@@ -80,6 +81,7 @@ class _DashboardCamState extends State<DashboardCam> {
 
   Widget _buildContainer(Widget childWidget, {double h, double w}) {
     return Container(
+      margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
           color: Color(0xFF17DFD3),
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -93,9 +95,8 @@ class _DashboardCamState extends State<DashboardCam> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(8),
         width: 1000,
-        height: 800,
+        height: 820,
         child: Column(
           children: [
             Row(

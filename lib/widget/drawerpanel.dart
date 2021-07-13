@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:coneg/utils/routes.dart';
 import 'package:coneg/models/auth_model.dart';
 import 'package:get_it/get_it.dart';
 
 class DrawerPanel extends StatelessWidget {
-  const DrawerPanel({
-    Key key,
-  }) : super(key: key);
+  final Color buttonColor = Colors.white;
+  final List<bool> selected;
+
+  const DrawerPanel({Key key, this.selected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      elevation: 10,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -47,8 +48,17 @@ class DrawerPanel extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: Text('Dashboard'),
-            leading: Icon(Icons.dashboard_rounded),
+            selected: selected[0],
+            selectedTileColor: Color(0xFF1F41B4),
+            hoverColor: Color(0xFF006E68),
+            title: Text(
+              'Dashboard',
+              style: TextStyle(color: buttonColor),
+            ),
+            leading: Icon(
+              Icons.dashboard_rounded,
+              color: buttonColor,
+            ),
             onTap: () {
               Navigator.popAndPushNamed(context, ConegRoutes.dashboard);
               // context.vxNav.push(
@@ -57,32 +67,67 @@ class DrawerPanel extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Cadastro de Pessoas'),
-            leading: Icon(Icons.add_box_rounded),
+            selected: selected[1],
+            selectedTileColor: Color(0xFF1F41B4),
+            hoverColor: Color(0xFF006E68),
+            title: Text(
+              'Cadastro de Pessoas',
+              style: TextStyle(color: buttonColor),
+            ),
+            leading: Icon(
+              Icons.add_box_rounded,
+              color: buttonColor,
+            ),
             onTap: () {
               Navigator.popAndPushNamed(context, ConegRoutes.cadastro);
               // context.vxNav.push(Uri.parse(ConegRoutes.cadastro));
             },
           ),
           ListTile(
-            title: Text('Configuração de Notificação'),
-            leading: Icon(Icons.notification_important_rounded),
+            selected: selected[2],
+            selectedTileColor: Color(0xFF1F41B4),
+            hoverColor: Color(0xFF006E68),
+            title: Text(
+              'Configuração de Notificação',
+              style: TextStyle(color: buttonColor),
+            ),
+            leading: Icon(
+              Icons.notification_important_rounded,
+              color: buttonColor,
+            ),
             onTap: () {
               Navigator.popAndPushNamed(context, ConegRoutes.configNotific);
               // context.vxNav.push(Uri.parse(ConegRoutes.configNotific));
             },
           ),
           ListTile(
-            title: Text('Configuração do Administrador'),
-            leading: Icon(Icons.miscellaneous_services_rounded),
+            selected: selected[3],
+            selectedTileColor: Color(0xFF1F41B4),
+            hoverColor: Color(0xFF006E68),
+            title: Text(
+              'Configuração do Administrador',
+              style: TextStyle(color: buttonColor),
+            ),
+            leading: Icon(
+              Icons.miscellaneous_services_rounded,
+              color: buttonColor,
+            ),
             onTap: () {
               Navigator.popAndPushNamed(context, ConegRoutes.configAdm);
               // context.vxNav.push(Uri.parse(ConegRoutes.configAdm));
             },
           ),
           ListTile(
-            title: Text('Sair'),
-            leading: Icon(Icons.exit_to_app_rounded),
+            selectedTileColor: Color(0xFF1F41B4),
+            hoverColor: Color(0xFF006E68),
+            title: Text(
+              'Sair',
+              style: TextStyle(color: buttonColor),
+            ),
+            leading: Icon(
+              Icons.exit_to_app_rounded,
+              color: buttonColor,
+            ),
             onTap: () {
               AuthModel authentication = GetIt.I<AuthModel>();
               authentication.logout();
