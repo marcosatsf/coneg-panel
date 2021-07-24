@@ -1,0 +1,1 @@
+Nesta página é possível alterar a senha do usuário atual e a localização onde o sistema ConEg está implementado.
