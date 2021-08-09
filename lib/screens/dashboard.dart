@@ -27,6 +27,7 @@ class _DashboardState extends State<Dashboard> {
   };
   Timer caller;
   Duration callerDuration = Duration(minutes: 1);
+  String nowInfoFormattedHour;
   String nowInfoFormatted;
 
   _DashboardState();
@@ -46,7 +47,8 @@ class _DashboardState extends State<Dashboard> {
     res = await RequestConeg().getJsonAuth(endpoint: '/route_all_info');
     DateTime now = DateTime.now();
     setState(() {
-      nowInfoFormatted = DateFormat('dd/MM/yyyy - HH:mm').format(now);
+      nowInfoFormattedHour = DateFormat('dd/MM/yyyy - HH:mm').format(now);
+      nowInfoFormatted = DateFormat('dd/MM/yyyy').format(now);
       //"${now.day}/${now.month}/${now.year} às ${now.hour}:${now.minute}";
       _build['alldata'] = AllData(
         data: res,
@@ -159,14 +161,38 @@ class _DashboardState extends State<Dashboard> {
     }
 
     //return Container();
-    return SingleChildScrollView(
-      child: DataTable(columns: [
+    return Column(children: [
+      Stack(
+        children: <Widget>[
+          // Stroked text as border.
+          Text(
+            'Relação de utilização de máscara hoje ($nowInfoFormatted)',
+            style: TextStyle(
+              fontSize: 15,
+              foreground: Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 6
+                ..color = Color(0xFF1F41B4),
+            ),
+          ),
+          // Solid text as fill.
+          Text(
+            'Relação de utilização de máscara hoje ($nowInfoFormatted)',
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.grey[300],
+            ),
+          ),
+        ],
+      ),
+      SingleChildScrollView(
+          child: DataTable(columns: [
         DataColumn(label: Text('Localização camera')),
-        DataColumn(label: Text('Utilizando máscara hoje')),
+        DataColumn(label: Text('Utilizando máscara')),
         DataColumn(label: Text('Desconhecido sem máscara')),
         DataColumn(label: Text('Cadastrado sem máscara'))
-      ], rows: rows),
-    );
+      ], rows: rows)),
+    ]);
   }
 
   @override
@@ -199,7 +225,7 @@ class _DashboardState extends State<Dashboard> {
             Padding(
                 padding: EdgeInsets.all(5),
                 child: Tooltip(
-                  message: "Última vez atualizado em $nowInfoFormatted",
+                  message: "Última vez atualizado em $nowInfoFormattedHour",
                   child: Icon(
                     Icons.help_outline_rounded,
                     color: design.getPurple(),

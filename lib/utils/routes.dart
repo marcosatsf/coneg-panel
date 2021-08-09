@@ -6,6 +6,7 @@ import 'package:coneg/screens/cadastro_unico.dart';
 import 'package:coneg/screens/configuracao.dart';
 import 'package:coneg/screens/dashboard.dart';
 import 'package:coneg/screens/dashboard_cam.dart';
+import 'package:coneg/screens/dashboard_prediction.dart';
 import 'package:coneg/ui/piechart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -33,7 +34,8 @@ class ConegRoutes {
   Future<Map<String, Widget>> getSubRoutesFrom(String route) async {
     if (route == dashboard) {
       mappedRoutes[dashboard] = {
-        'Resumo Geral': Dashboard(),
+        'Quadro Atual Regional': DashboardPred(),
+        'Resumo Geral Local': Dashboard(),
       };
       var res = await RequestConeg().getJsonAuth(endpoint: '/inpector_list');
       for (var cam in res['cams']) {

@@ -1,6 +1,6 @@
 class AuthModel {
-  String accessToken;
-  String tokenType;
+  String accessToken = '';
+  String tokenType = '';
 
   AuthModel({this.accessToken, this.tokenType});
 

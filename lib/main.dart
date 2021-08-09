@@ -1,6 +1,7 @@
 import 'package:coneg/models/auth_model.dart';
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/screens/dashboard.dart';
+import 'package:coneg/screens/dashboard_prediction.dart';
 import 'package:coneg/screens/root_page.dart';
 import 'package:coneg/ui/piechart.dart';
 import 'package:flutter/foundation.dart';
@@ -38,7 +39,7 @@ void main() {
           return NoAnimRoute(
             builder: (context) => RootPageConeg(
               //TODO: CHANGE TO GENERAL DASH
-              object: Dashboard(),
+              object: DashboardPred(),
               cAA: CrossAxisAlignment.center,
               masterRoute: ConegRoutes.dashboard,
               selected: [true, false, false, false],
