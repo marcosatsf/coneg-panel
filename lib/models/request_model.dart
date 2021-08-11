@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 class RequestConeg {
   static final String route = 'http://localhost:5000';
+  int lastStatusCode;
 
   Uri _generateUri(String end) {
     return Uri.parse('$route$end');
@@ -35,7 +36,7 @@ class RequestConeg {
       _generateUri(endpoint),
       headers: _generateHeaders(contentType: 'application/json', isAuth: true),
     );
-    //print(res.body);
+    lastStatusCode = res.statusCode;
     return json.decode(utf8.decode(res.bodyBytes));
   }
 

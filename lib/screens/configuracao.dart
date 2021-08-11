@@ -30,13 +30,11 @@ class _ConfiguracaoState extends State<Configuracao> {
   TextEditingController estado = TextEditingController();
   TextEditingController senhaAtual = TextEditingController();
   TextEditingController senhaNova = TextEditingController();
-  //List<int> _selectedZip;
-  //Uint8List _bytesData;
-  //html.Worker cadastroWorker;
-  //String fileName = 'Não selecionado...';
+  RequestConeg requestSystem = RequestConeg();
   ConegDesign cadastroDesign = GetIt.I<ConegDesign>();
   String cadastro = "Configuração";
   HelpView helpConfiguracao = HelpView('assets/helpConfiguracao.txt');
+  bool initial = true;
 
   @override
   void initState() {
@@ -45,8 +43,21 @@ class _ConfiguracaoState extends State<Configuracao> {
   }
 
   void _loadRes() async {
-    var res = await ConegRoutes().getCurrentLocation();
+    var res = await ConegRoutes().getCurrentLocation(requestSystem);
     print('res $res');
+    if (initial == false) {
+      if (requestSystem.lastStatusCode == 200) {
+        print('nice location change 🔝');
+        helpConfiguracao.showInfo(context, "Localização do sistema",
+            "Nova localização cadastrada no sistema!\nAguarde alguns instantes até que predição para ${res['city']} - ${res['state']} seja totalmente executada.");
+      } else {
+        print('bad req man ❌');
+        helpConfiguracao.showInfo(context, "Impossível alterar localização",
+            "Não foi possível alterar a localização do sistema!");
+      }
+    } else
+      initial = false;
+    print('initial $initial');
     setState(() {
       cidade.text = res['city'];
       estado.text = res['state'];
@@ -227,7 +238,6 @@ class _ConfiguracaoState extends State<Configuracao> {
                             child: MaterialButton(
                               onPressed: () async {
                                 if (_formKeyPW.currentState.validate()) {
-                                  print('nice dude!');
                                   tryChangePW();
                                 }
                               },

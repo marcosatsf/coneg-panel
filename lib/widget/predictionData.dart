@@ -51,20 +51,27 @@ class SelectionCallbackExample extends StatefulWidget {
       Map<String, dynamic> map) {
     List<TimeSeriesCases> daysCases = List.empty(growable: true);
     for (var day in map.keys) {
-      daysCases.add(TimeSeriesCases(DateTime.parse(day), map[day]));
+      daysCases.add(TimeSeriesCases(DateTime.parse(day), map[day][1],
+          predicted: map[day][0]));
     }
     return [
       new charts.Series<TimeSeriesCases, String>(
         id: 'Casos novos por dia',
         colorFn: (TimeSeriesCases ts, __) {
-          DateTime tMinusOne = DateTime.now().subtract(Duration(days: 1));
-          if (tMinusOne.isAfter(ts.time))
-            return charts.ColorUtil.fromDartColor(Colors.indigo.shade400);
-          else
-            return charts.ColorUtil.fromDartColor(Colors.redAccent.shade700);
+          switch (ts.predicted) {
+            case 0:
+              return charts.ColorUtil.fromDartColor(Colors.indigo.shade400);
+              break;
+            case 1:
+              return charts.ColorUtil.fromDartColor(Colors.redAccent.shade700);
+              break;
+            default:
+              return charts.ColorUtil.fromDartColor(Colors.indigo.shade400);
+              break;
+          }
         },
-        domainFn: (TimeSeriesCases ts, _) =>
-            DateFormat('dd/MM/yyyy').format(ts.time),
+        domainFn: (TimeSeriesCases ts, int idx) =>
+            DateFormat('dd/MM').format(ts.time),
         measureFn: (TimeSeriesCases ts, _) => ts.qtd,
         data: daysCases,
         labelAccessorFn: (TimeSeriesCases ts, _) => '${ts.qtd.toString()}',
@@ -154,10 +161,11 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
                       })),
             ],
           )),
-      Text('Situação hoje em ${widget.location}'),
+      Text(
+          'Situação em ${widget.location} de ${DateFormat('dd/MM/yyyy').format(widget.seriesList.first.data.first.time)} para ${DateFormat('dd/MM/yyyy').format(widget.seriesList.first.data.last.time)}'),
       SizedBox(
           height: 400,
-          width: 700,
+          width: 800,
           child: charts.BarChart(
             widget.seriesList,
             animate: widget.animate,
@@ -214,6 +222,7 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
 class TimeSeriesCases {
   final DateTime time;
   final int qtd;
+  final int predicted;
 
-  TimeSeriesCases(this.time, this.qtd);
+  TimeSeriesCases(this.time, this.qtd, {this.predicted});
 }

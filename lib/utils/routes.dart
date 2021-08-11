@@ -60,9 +60,9 @@ class ConegRoutes {
     await RequestConeg().postJsonAuth(endpoint: '/update_notif', data: map);
   }
 
-  Future<Map<String, dynamic>> getCurrentLocation() async {
+  Future<Map<String, dynamic>> getCurrentLocation(RequestConeg reqC) async {
     Map<String, dynamic> res =
-        await RequestConeg().getJsonAuth(endpoint: '/current_location');
+        await reqC.getJsonAuth(endpoint: '/current_location');
     return res;
   }
 
