@@ -7,6 +7,8 @@ import 'package:coneg/screens/configuracao.dart';
 import 'package:coneg/screens/dashboard.dart';
 import 'package:coneg/screens/dashboard_cam.dart';
 import 'package:coneg/screens/dashboard_prediction.dart';
+import 'package:coneg/screens/notificacao.dart';
+import 'package:coneg/screens/ranking_notif.dart';
 import 'package:coneg/ui/piechart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -26,9 +28,13 @@ class ConegRoutes {
       'Cadastro Único': CadastroUnico(),
     },
     configNotific: {
-      // 'Configuração de notificação': NotificacaoConfig()
+      'Configuração de notificação': NotificacaoConfig(),
+      'Ranking de notificações': RankingNotif(),
+      //'Histórico de notificações': HistoricoNotif(),
     },
-    configAdm: {'Configuração da conta': Configuracao()}
+    configAdm: {
+      'Configuração da conta': Configuracao(),
+    }
   };
 
   Future<Map<String, Widget>> getSubRoutesFrom(String route) async {
