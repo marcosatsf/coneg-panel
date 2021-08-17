@@ -2,20 +2,6 @@ import 'package:coneg/models/design_color_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-// class CustomButtonBar extends StatefulWidget {
-//   const CustomButtonBar(
-//       {Key key, this.children, this.isSelected, this.onPressed})
-//       : super(key: key);
-
-//   final List<Widget> children;
-//   final List<bool> isSelected;
-//   final Function(int) onPressed;
-
-//   @override
-//   _CustomButtonBarState createState() =>
-//       _CustomButtonBarState(children, isSelected, onPressed);
-// }
-
 class CustomButtonBar extends StatelessWidget {
   final List<Widget> children;
   final List<bool> isSelected;

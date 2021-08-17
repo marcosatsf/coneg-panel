@@ -69,9 +69,10 @@ class _DashboardPredState extends State<DashboardPred> {
 
   void _loadData(bool option) async {
     if (option == false) resOld = res;
-    res = await RequestConeg()
-        .getJsonAuth(endpoint: '/route_info', query: ["local", "timeseries"]);
     DateTime now = DateTime.now();
+    res = await RequestConeg().getJsonAuthListQuery(
+        endpoint: '/route_info',
+        query: [DateFormat('dd/MM/yyyy').format(now), "timeseries"]);
     setState(() {
       nowInfoFormatted = DateFormat('dd/MM/yyyy - HH:mm').format(now);
       //"${now.day}/${now.month}/${now.year} às ${now.hour}:${now.minute}";

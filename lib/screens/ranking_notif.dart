@@ -34,7 +34,7 @@ class _RankingNotifState extends State<RankingNotif> {
   Map<String, dynamic> res, resOld;
   RequestConeg requestSystem = RequestConeg();
   ConegDesign rankingNotifDesign = GetIt.I<ConegDesign>();
-  String title = "Ranking de notificados";
+  String title = "Ranking de Cadastrados Sem Máscara";
   HelpView helpRankingNotif = HelpView('assets/helpRankingNotif.txt');
   bool initial = true;
 
@@ -152,41 +152,29 @@ class _RankingNotifState extends State<RankingNotif> {
         ]));
       }
     }
+    rows.sort((a, b) => (b.cells.last.child as Text)
+        .data
+        .compareTo((a.cells.last.child as Text).data));
 
-    //return Container();
     return Column(children: [
-      // Stack(
-      //   children: <Widget>[
-      //     // Stroked text as border.
-      //     Text(
-      //       'Relação de utilização de máscara hoje ($nowInfoFormatted)',
-      //       style: TextStyle(
-      //         fontSize: 15,
-      //         foreground: Paint()
-      //           ..style = PaintingStyle.stroke
-      //           ..strokeWidth = 6
-      //           ..color = Color(0xFF1F41B4),
-      //       ),
-      //     ),
-      //     // Solid text as fill.
-      //     Text(
-      //       'Relação de utilização de máscara hoje ($nowInfoFormatted)',
-      //       style: TextStyle(
-      //         fontSize: 15,
-      //         color: Colors.grey[300],
-      //       ),
-      //     ),
-      //   ],
-      // ),
       SingleChildScrollView(
           child: DataTable(
               sortColumnIndex: 2,
-              sortAscending: true,
+              sortAscending: false,
+              headingRowColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.hovered))
+                  return rankingNotifDesign.getPurple().withOpacity(0.20);
+                return rankingNotifDesign
+                    .getPurple()
+                    .withOpacity(0.50); // Use the default value.
+              }),
               columns: [
                 DataColumn(label: Text('ID')),
                 DataColumn(label: Text('Nome')),
                 DataColumn(
-                  label: Text('Quantidade de notificações totais'),
+                  label: Text('Capturas totais sem máscara'),
+                  numeric: true,
                 ),
               ],
               rows: rows)),

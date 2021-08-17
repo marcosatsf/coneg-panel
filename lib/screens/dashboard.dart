@@ -188,9 +188,9 @@ class _DashboardState extends State<Dashboard> {
       SingleChildScrollView(
           child: DataTable(columns: [
         DataColumn(label: Text('Localização camera')),
-        DataColumn(label: Text('Utilizando máscara')),
-        DataColumn(label: Text('Desconhecido sem máscara')),
-        DataColumn(label: Text('Cadastrado sem máscara'))
+        DataColumn(label: Text('Com máscara (CM)')),
+        DataColumn(label: Text('Desconhecido sem máscara (DSM)')),
+        DataColumn(label: Text('Cadastrado sem máscara (CSM)'))
       ], rows: rows)),
     ]);
   }

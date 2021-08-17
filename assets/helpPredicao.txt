@@ -2,4 +2,4 @@ Nesta página é possível verificar os novos casos de Covid-19 na região cadas
 É possível visualizar 6 últimos novos casos registrados. O último deles, é a previsão para hoje com base nos valores passados.
 
 Em lilás é possível ver a quantidade de casos novos nas respectivas datas.
-Em vermelho é possível ver a quantidade de casos novos previstos.
+Em vermelho é possível ver a quantidade de casos novos previstos pelo sistema ConEg.

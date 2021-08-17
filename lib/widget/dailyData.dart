@@ -198,7 +198,7 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
               child: Text(
-                'Utilizando máscara [qtd]: $value',
+                'Com máscara (CM) [qtd]: $value',
                 style:
                     TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
               )));
@@ -207,7 +207,7 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
               child: Text(
-                'Desconhecido sem máscara [qtd]: $value',
+                'Desconhecido sem máscara (DSM) [qtd]: $value',
                 style: TextStyle(
                     color: Colors.yellow.shade700, fontWeight: FontWeight.bold),
               )));
@@ -216,7 +216,7 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
               child: Text(
-                'Cadastrado sem máscara [qtd]: $value',
+                'Cadastrado sem máscara (CSM) [qtd]: $value',
                 style:
                     TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
               )));

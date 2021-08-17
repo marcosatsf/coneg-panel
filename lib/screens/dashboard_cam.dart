@@ -46,7 +46,7 @@ class _DashboardCamState extends State<DashboardCam> {
   }
 
   void _loadData(String where, bool option) async {
-    res = await RequestConeg().getJsonAuth(
+    res = await RequestConeg().getJsonAuthListQuery(
         endpoint: '/route_info',
         query: [where, "weeklydata", "usagedata", "infodata", "dailydata"]);
     DateTime now = DateTime.now();

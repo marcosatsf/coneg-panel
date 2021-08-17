@@ -88,7 +88,7 @@ class DrawerPanel extends StatelessWidget {
             selectedTileColor: Color(0xFF1F41B4),
             hoverColor: Color(0xFF006E68),
             title: Text(
-              'Configuração de Notificação',
+              'Notificações',
               style: TextStyle(color: buttonColor),
             ),
             leading: Icon(

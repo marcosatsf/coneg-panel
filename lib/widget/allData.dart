@@ -91,9 +91,9 @@ class GroupedFillColorBarChart extends StatelessWidget {
   static List<charts.Series<OrdinalCases, String>> _createSampleData(
       List<dynamic> data) {
     final allStatusData = [
-      new OrdinalCases('✔️😷', data[0]),
-      new OrdinalCases('❌😁📝', data[1]),
-      new OrdinalCases('✔️😁📝', data[2])
+      new OrdinalCases('CM', data[0]), //CM
+      new OrdinalCases('DSM', data[1]), //DSM
+      new OrdinalCases('CSM', data[2]) //CSM
     ];
 
     return [
@@ -105,15 +105,15 @@ class GroupedFillColorBarChart extends StatelessWidget {
           data: allStatusData,
           colorFn: (uso, __) {
             switch (uso.status) {
-              case '✔️😷':
+              case 'CM':
                 return charts.ColorUtil.fromDartColor(
                     Colors.green.withOpacity(0.75));
                 break;
-              case '❌😁📝':
+              case 'DSM':
                 return charts.ColorUtil.fromDartColor(
                     Colors.yellow.shade700.withOpacity(0.75));
                 break;
-              case '✔️😁📝':
+              case 'CSM':
                 return charts.ColorUtil.fromDartColor(
                     Colors.red.withOpacity(0.75));
                 break;
@@ -125,13 +125,13 @@ class GroupedFillColorBarChart extends StatelessWidget {
           },
           fillColorFn: (uso, __) {
             switch (uso.status) {
-              case '✔️😷':
+              case 'CM':
                 return charts.ColorUtil.fromDartColor(Colors.green);
                 break;
-              case '❌😁📝':
+              case 'DSM':
                 return charts.ColorUtil.fromDartColor(Colors.yellow.shade700);
                 break;
-              case '✔️😁📝':
+              case 'CSM':
                 return charts.ColorUtil.fromDartColor(Colors.red);
                 break;
               default:
