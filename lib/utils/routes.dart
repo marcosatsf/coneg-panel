@@ -7,6 +7,7 @@ import 'package:coneg/screens/configuracao.dart';
 import 'package:coneg/screens/dashboard.dart';
 import 'package:coneg/screens/dashboard_cam.dart';
 import 'package:coneg/screens/dashboard_prediction.dart';
+import 'package:coneg/screens/hist_notif.dart';
 import 'package:coneg/screens/notificacao.dart';
 import 'package:coneg/screens/ranking_notif.dart';
 import 'package:coneg/ui/piechart.dart';
@@ -30,7 +31,7 @@ class ConegRoutes {
     configNotific: {
       'Configuração de notificação': NotificacaoConfig(),
       'Ranking de notificações': RankingNotif(),
-      //'Histórico de notificações': HistoricoNotif(),
+      'Histórico de notificações': HistNotif(),
     },
     configAdm: {
       'Configuração da conta': Configuracao(),

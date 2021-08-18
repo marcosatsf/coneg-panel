@@ -46,6 +46,27 @@ class RequestConeg {
     return json.decode(utf8.decode(res.bodyBytes));
   }
 
+  Future<List<dynamic>> getJsonAuthResList(
+      {String endpoint, Map<String, String> query}) async {
+    if (query != null) {
+      String tmp = '';
+      for (var item in query.keys) {
+        String variable = '$item=${query[item]}';
+        if (tmp.isEmpty)
+          tmp += '?$variable';
+        else
+          tmp += '&$variable';
+      }
+      endpoint = '$endpoint$tmp';
+    }
+    var res = await http.get(
+      _generateUri(endpoint),
+      headers: _generateHeaders(contentType: 'application/json', isAuth: true),
+    );
+    lastStatusCode = res.statusCode;
+    return json.decode(utf8.decode(res.bodyBytes));
+  }
+
   Future<Map<String, dynamic>> getJsonAuthListQuery(
       {String endpoint, List<String> query}) async {
     if (query != null) {

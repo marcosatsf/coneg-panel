@@ -1,0 +1,3 @@
+Para verificar o histórico de ocorrências a pessoas cadastradas que não utilizaram máscara, pesquise a identificação desta pessoa no campo abaixo e clique em procurar!
+
+Assim que a consulta for realizada com sucesso, será possível analisar as últimas ocorrências daquela pessoa e ao clicar em mais informações é possível até ver a imagem de quando a ocorrência foi emitida.
