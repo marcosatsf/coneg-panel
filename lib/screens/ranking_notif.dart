@@ -244,8 +244,7 @@ class _RankingNotifState extends State<RankingNotif> {
                           color: rankingNotifDesign.getPurple(),
                         ),
                         onPressed: () {
-                          // helpCadastroUnico.showHelp(
-                          //     context, "Ajuda em Cadastro Único");
+                          helpRankingNotif.showHelp(context, "Ajuda em $title");
                         })),
               ],
             ),

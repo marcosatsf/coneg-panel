@@ -186,12 +186,16 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
       SingleChildScrollView(
-          child: DataTable(columns: [
-        DataColumn(label: Text('Localização camera')),
-        DataColumn(label: Text('Com máscara (CM)')),
-        DataColumn(label: Text('Desconhecido sem máscara (DSM)')),
-        DataColumn(label: Text('Cadastrado sem máscara (CSM)'))
-      ], rows: rows)),
+          child: DataTable(
+        columns: [
+          DataColumn(label: Text('Localização camera')),
+          DataColumn(label: Text('Com máscara (CM)')),
+          DataColumn(label: Text('Desconhecido sem máscara (DSM)')),
+          DataColumn(label: Text('Cadastrado sem máscara (CSM)'))
+        ],
+        rows: rows,
+        horizontalMargin: 5,
+      )),
     ]);
   }
 

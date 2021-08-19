@@ -1,23 +1,17 @@
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:coneg/models/auth_model.dart';
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/models/request_model.dart';
 import 'package:coneg/ui/help_view.dart';
-import 'package:coneg/utils/routes.dart';
-import 'package:coneg/widget/appbarpanel.dart';
-import 'package:coneg/widget/drawerpanel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
-import 'package:universal_html/html.dart' as html;
-import 'dart:typed_data';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:intl/intl.dart';
 
 class HistNotif extends StatefulWidget {
   @override
@@ -39,36 +33,29 @@ class _HistNotifState extends State<HistNotif> {
   List<dynamic> gotCases = List<dynamic>.empty();
   String title = "Histórico de cadastrados sem máscara";
   HelpView helpRankingNotif = HelpView('assets/helpHistNotif.txt');
-  String _search;
+  Map<String, dynamic> currentCase;
+  List<bool> isSelected;
+  bool showInfo = false;
+  int indexMoreDetails = 0;
+  double widthCont = 0;
   int _offset = 0;
-  bool initial = true;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // _loadData();
-  //   // caller = Timer.periodic(callerDuration, (e) {
-  //   //   _loadData();
-  //   //   print(e.tick);
-  //   // });
-  // }
+  String savedID;
+  bool started = true;
 
   void _loadData() async {
-    var res = await RequestConeg().getJsonAuthResList(
-        endpoint: '/get_hist_notif',
-        query: {'pesid': idPessoa.value.text, 'offset': _offset.toString()});
+    var res = await RequestConeg()
+        .getJsonAuthResList(endpoint: '/get_hist_notif', query: {
+      'pesid': _offset != 0 ? savedID : idPessoa.value.text,
+      'offset': _offset.toString()
+    });
     print(res);
     setState(() {
       gotCases = res;
+      savedID = idPessoa.value.text;
+      isSelected = List.filled(gotCases.length, false);
       print(gotCases);
     });
   }
-
-  // @override
-  // void dispose() {
-  //   caller.cancel();
-  //   super.dispose();
-  // }
 
   Widget _buildContainer(Widget childWidget, {double h, double w}) {
     return Container(
@@ -88,6 +75,7 @@ class _HistNotifState extends State<HistNotif> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
           padding: EdgeInsets.all(20),
@@ -126,115 +114,115 @@ class _HistNotifState extends State<HistNotif> {
                         color: histNotifDesign.getPurple(),
                       ),
                       onPressed: () {
-                        // helpCadastroUnico.showHelp(
-                        //     context, "Ajuda em Cadastro Único");
+                        helpRankingNotif.showHelp(context, "Ajuda em $title");
                       })),
             ],
           ),
         ),
-        Form(
-          key: _formKeySearch,
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Container(
-              height: 600,
-              width: 700,
-              decoration: BoxDecoration(
-                  color: Color(0xFF17DFD3),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  border: Border.all(width: 5, color: Color(0xFF23A39B))),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(50),
-                        child: Container(
-                          width: 400,
-                          child: TextFormField(
-                            controller: idPessoa,
-                            decoration: InputDecoration(
-                              labelText: "ID da pessoa cadastrada",
-                              labelStyle:
-                                  TextStyle(color: histNotifDesign.getBlue()),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.blue, width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xFF23A39B), width: 2.0),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Form(
+              key: _formKeySearch,
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Container(
+                  height: 600,
+                  width: 700,
+                  decoration: BoxDecoration(
+                      color: Color(0xFF17DFD3),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      border: Border.all(width: 5, color: Color(0xFF23A39B))),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(50),
+                            child: Container(
+                              width: 400,
+                              child: TextFormField(
+                                controller: idPessoa,
+                                decoration: InputDecoration(
+                                  labelText: "ID da pessoa cadastrada",
+                                  labelStyle: TextStyle(
+                                      color: histNotifDesign.getBlue()),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.blue, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xFF23A39B), width: 2.0),
+                                  ),
+                                ),
+                                style: TextStyle(
+                                    color: histNotifDesign.getBlue(),
+                                    fontSize: 18),
+                                textAlign: TextAlign.center,
+                                validator: (value) {
+                                  if (value.isEmpty)
+                                    return "ID não pode ser vazio!";
+                                },
                               ),
                             ),
-                            style: TextStyle(
-                                color: histNotifDesign.getBlue(), fontSize: 18),
-                            textAlign: TextAlign.center,
-                            validator: (value) {
-                              if (value.isEmpty)
-                                return "ID não pode ser vazio!";
-                            },
                           ),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 5, bottom: 10),
+                            child: Container(
+                              width: 100,
+                              height: 30,
+                              child: MaterialButton(
+                                onPressed: () async {
+                                  if (_formKeySearch.currentState.validate()) {
+                                    _offset = 0;
+                                    _loadData();
+                                  }
+                                },
+                                color: histNotifDesign.getPurple(),
+                                elevation: 10,
+                                highlightElevation: 2,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                textColor: Colors.white,
+                                child: Text('Procurar'),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 10),
+                      Expanded(
                         child: Container(
-                          width: 100,
-                          height: 30,
-                          child: MaterialButton(
-                            onPressed: () async {
-                              if (_formKeySearch.currentState.validate()) {
-                                _loadData();
-                                print('ihuuuu');
-                              }
-                            },
-                            color: histNotifDesign.getPurple(),
-                            elevation: 10,
-                            highlightElevation: 2,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            textColor: Colors.white,
-                            child: Text('Procurar'),
-                          ),
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                          height: 500,
+                          decoration: BoxDecoration(
+                              color: Color(0xFF006E68),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(
+                                  width: 3, color: Color(0xFF23A39B))),
+                          child: _loadCorrectWidget(gotCases),
                         ),
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: 500,
-                      child: _loadCorrectWidget(gotCases),
-                      //  FutureBuilder(
-                      //     future: _loadData(),
-                      //     builder: (context, snapshot) {
-                      //       switch (snapshot.connectionState) {
-                      //         case ConnectionState.waiting:
-                      //         case ConnectionState.none:
-                      //           return Container(
-                      //             width: 200,
-                      //             height: 200,
-                      //             alignment: Alignment.center,
-                      //             child: CircularProgressIndicator(
-                      //               valueColor: AlwaysStoppedAnimation<Color>(
-                      //                   Colors.white),
-                      //               strokeWidth: 5,
-                      //             ),
-                      //           );
-                      //         default:
-                      //           if (snapshot.hasError)
-                      //             return Container();
-                      //           else
-                      //             return _createCasesTable(gotCases);
-                      //       }
-                      //     }),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              width: widthCont,
+              height: 500,
+              child: _buildDetailsInfo(currentCase),
+              curve: Curves.easeOutCubic,
+              decoration: BoxDecoration(
+                  color: Color(0xFF17DFD3),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  border: Border.all(width: 5, color: Color(0xFF23A39B))),
+            ),
+          ],
         ),
       ],
     );
@@ -252,14 +240,172 @@ class _HistNotifState extends State<HistNotif> {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
-          return ListTile(
-            leading: Icon(Icons.add_alert_sharp),
-            title: Text(cases[index]['ts']),
-          );
+          if (index == 10)
+            return ListTile(
+              title: MaterialButton(
+                onPressed: () {
+                  setState(() {
+                    _offset += 10;
+                    _loadData();
+                  });
+                },
+                color: histNotifDesign.getPurple(),
+                elevation: 10,
+                highlightElevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                textColor: Colors.white,
+                child: Text('Carregar mais antigos'),
+              ),
+            );
+          String datetime = DateFormat('dd/MM/yyyy - HH:mm')
+              .format(DateTime.parse(cases[index]['ts']));
+          if (cases[index]['notified'] == 1)
+            return ListTile(
+              leading: Icon(
+                Icons.mark_email_read_outlined,
+                color: Colors.red.shade800,
+              ),
+              title: Text(
+                'Notificado, horário da captura: $datetime',
+                style: TextStyle(color: Colors.white),
+              ),
+              trailing: MaterialButton(
+                onPressed: //started == false &&
+                    isSelected.contains(true) && isSelected[index] == false
+                        ? null
+                        : () {
+                            setState(() {
+                              isSelected =
+                                  _loadDetails(index, cases[index], isSelected);
+                            });
+                          },
+                color: isSelected[index]
+                    ? histNotifDesign.getBlue()
+                    : histNotifDesign.getPurple(),
+                elevation: 10,
+                highlightElevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                textColor: Colors.white,
+                child: Text('Mais detalhes'),
+              ),
+            );
+          else
+            return ListTile(
+              leading: Icon(
+                Icons.horizontal_rule,
+                color: Colors.yellow.shade600,
+              ),
+              title: Text(
+                'Não notificado, horário da captura: $datetime',
+                style: TextStyle(color: Colors.white),
+              ),
+              trailing: MaterialButton(
+                onPressed: //started == false &&
+                    isSelected.contains(true) && isSelected[index] == false
+                        ? null
+                        : () {
+                            setState(() {
+                              isSelected =
+                                  _loadDetails(index, cases[index], isSelected);
+                            });
+                          },
+                color: isSelected[index]
+                    ? histNotifDesign.getBlue()
+                    : histNotifDesign.getPurple(),
+                elevation: 10,
+                highlightElevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                textColor: Colors.white,
+                child: Text('Mais detalhes'),
+              ),
+            );
         },
-        separatorBuilder: (context, index) => SizedBox(
-              width: 15,
+        separatorBuilder: (context, index) => Divider(
+              color: Color(0xFF23A39B),
             ),
         itemCount: cases.length);
+  }
+
+  List<bool> _loadDetails(int idx, Map cases, List selections) {
+    indexMoreDetails = idx;
+    if (widthCont == 0) {
+      for (var i = 0; i < selections.length; i++) {
+        selections[i] = false;
+      }
+      selections[idx] = true;
+      showInfo = true;
+      widthCont = 400;
+      currentCase = {
+        'pesid': cases['pesid'],
+        'name': cases['name'],
+        'ts': DateFormat('dd/MM/yyyy - HH:mm')
+            .format(DateTime.parse(cases['ts'])),
+        'local': cases['local'],
+        'notified': cases['notified'],
+        'image': cases['image']
+      };
+    } else {
+      for (var i = 0; i < selections.length; i++) {
+        selections[i] = false;
+      }
+      showInfo = false;
+      widthCont = 0;
+    }
+    // started = false;
+    return selections;
+  }
+
+  Widget _buildDetailsInfo(Map<String, dynamic> detailsMap) {
+    String notificado;
+    var image;
+    if (showInfo) {
+      if (detailsMap['notified'] == 1)
+        notificado = 'Sim';
+      else
+        notificado = 'Não';
+      if (detailsMap['image'].isEmpty)
+        image = Center(
+          child: Row(
+            children: [
+              Icon(Icons.broken_image_rounded),
+              Text(' Sem imagem de captura! '),
+            ],
+          ),
+        );
+      else {
+        Uint8List bytes = Base64Decoder().convert(detailsMap['image']);
+        image = Center(child: Image.memory(bytes));
+      }
+      return ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          ListTile(
+              title: Text(detailsMap['pesid'].toString()),
+              leading: Text('ID: ')),
+          ListTile(
+              title: Text(detailsMap['name'].toString()),
+              leading: Text('Nome: ')),
+          ListTile(
+              title: Text(detailsMap['ts'].toString()),
+              leading: Text('Data/Hora: ')),
+          ListTile(
+              title: Text(detailsMap['local'].toString()),
+              leading: Text('Local: ')),
+          ListTile(
+              title: Text(notificado.toString()),
+              leading: Text('Notificado: ')),
+          ListTile(
+              title: Text(
+            'Captura/prova: ',
+            style: TextStyle(fontSize: 14),
+          )),
+          ListTile(title: image),
+        ],
+      );
+    } else
+      return Container();
   }
 }

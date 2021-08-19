@@ -84,7 +84,7 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
   DateTime _time;
   Map<String, num> _measures;
   ConegDesign weeklyDesign = GetIt.I<ConegDesign>();
-  String predData = "Quadro Atual Regional";
+  String predData = "Quadro Atual Regional de Predição para COVID-19";
   HelpView helpPredData = HelpView('assets/helpPredicao.txt');
 
   // Listens to the underlying selection changes, and updates the information
