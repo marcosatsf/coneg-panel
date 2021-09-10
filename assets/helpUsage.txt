@@ -2,6 +2,6 @@ Neste quadro é possível verificar dados da utilização de máscaras em relaç
 
 Os grupos são definidos da seguinte forma:
 
- - CM [Verde]: Pessoas utilizando máscara;
- - DSM [Amarelo]: Pessoas não utilizando máscara e não cadastradas no sistema ConEg;
- - CSM [Vermelho]: Pessoas não utilizando máscara e cadastradas no sistema ConEg;
+ - CM (Cadastrado com máscara) [Verde]: Pessoas utilizando máscara;
+ - DSM (Descadastrado sem máscara) [Amarelo]: Pessoas não utilizando máscara e não cadastradas no sistema ConEg;
+ - CSM (Cadastrado sem máscara) [Vermelho]: Pessoas não utilizando máscara e cadastradas no sistema ConEg;

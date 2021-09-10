@@ -197,28 +197,61 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
         case 'Status 0':
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
-              child: Text(
-                'Com máscara (CM) [qtd]: $value',
-                style:
-                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+              child: Stack(
+                children: <Widget>[
+                  Text(
+                    'Com máscara (CM) [qtd]: $value',
+                    style: TextStyle(
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 2
+                          ..color = Colors.black),
+                  ),
+                  Text(
+                    'Com máscara (CM) [qtd]: $value',
+                    style: TextStyle(color: Colors.green),
+                  ),
+                ],
               )));
           break;
         case 'Status 1':
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
-              child: Text(
-                'Desconhecido sem máscara (DSM) [qtd]: $value',
-                style: TextStyle(
-                    color: Colors.yellow.shade700, fontWeight: FontWeight.bold),
+              child: Stack(
+                children: <Widget>[
+                  Text(
+                    'Desconhecido sem máscara (DSM) [qtd]: $value',
+                    style: TextStyle(
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 2
+                          ..color = Colors.black),
+                  ),
+                  Text(
+                    'Desconhecido sem máscara (DSM) [qtd]: $value',
+                    style: TextStyle(color: Colors.yellow.shade700),
+                  ),
+                ],
               )));
           break;
         case 'Status 2':
           children.add(new Padding(
               padding: EdgeInsets.only(top: 2.5, bottom: 2.5),
-              child: Text(
-                'Cadastrado sem máscara (CSM) [qtd]: $value',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              child: Stack(
+                children: <Widget>[
+                  Text(
+                    'Cadastrado sem máscara (CSM) [qtd]: $value',
+                    style: TextStyle(
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 2
+                          ..color = Colors.black),
+                  ),
+                  Text(
+                    'Cadastrado sem máscara (CSM) [qtd]: $value',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ],
               )));
           break;
         default:

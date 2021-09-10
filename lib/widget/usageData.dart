@@ -112,9 +112,9 @@ class SimplePieChart extends StatelessWidget {
   static List<charts.Series<LinearCases, String>> _createSampleData(List data) {
     try {
       final dataList = [
-        new LinearCases('✔️😷', data[0]),
-        new LinearCases('❌😁📝', data[1]),
-        new LinearCases('✔️😁📝', data[2])
+        new LinearCases('CM', data[0]),
+        new LinearCases('DSM', data[1]),
+        new LinearCases('CSM', data[2])
       ];
 
       return [
@@ -124,13 +124,13 @@ class SimplePieChart extends StatelessWidget {
           measureFn: (LinearCases cases, _) => cases.qtd,
           colorFn: (LinearCases cases, _) {
             switch (cases.status) {
-              case '✔️😷':
+              case 'CM':
                 return charts.ColorUtil.fromDartColor(Colors.green);
                 break;
-              case '❌😁📝':
+              case 'DSM':
                 return charts.ColorUtil.fromDartColor(Colors.yellow.shade700);
                 break;
-              case '✔️😁📝':
+              case 'CSM':
                 return charts.ColorUtil.fromDartColor(Colors.red);
                 break;
               default:
