@@ -1,0 +1,8 @@
+Aqui é possível montar o painel da tranparência ConEg que poderá ser acessado por qualquer usuário sem autenticação.
+Ao clicar no botão mais inferior, a configuração dentro do quadro 'Atualmente configurado' será salva no servidor ConEg. A atualização será automática para os usuários!
+Ideal para utilizar em um monitor localizado em uma área comum ou até mesmo disponibilizar para os membros onde o sistema ConEg atual está instalado.
+
+Atenção ao tamanho de largura dos módulos pois este pode ocupar mais do que 1 espaço.
+
+Módulo cor azul: ocupa 1 espaço de largura.
+Módulo cor vinho: ocupa 2 espaços de largura.

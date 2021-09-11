@@ -2,12 +2,7 @@ import 'dart:async';
 
 import 'package:coneg/models/design_color_model.dart';
 import 'package:coneg/models/request_model.dart';
-import 'package:coneg/widget/allData.dart';
-import 'package:coneg/widget/dailyData.dart';
-import 'package:coneg/widget/infoData.dart';
 import 'package:coneg/widget/predictionData.dart';
-import 'package:coneg/widget/usageData.dart';
-import 'package:coneg/widget/weeklyData.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';

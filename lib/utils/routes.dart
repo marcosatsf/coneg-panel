@@ -10,6 +10,7 @@ import 'package:coneg/screens/dashboard_prediction.dart';
 import 'package:coneg/screens/hist_notif.dart';
 import 'package:coneg/screens/notificacao.dart';
 import 'package:coneg/screens/ranking_notif.dart';
+import 'package:coneg/screens/setup_user.dart';
 import 'package:coneg/ui/piechart.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +36,7 @@ class ConegRoutes {
     },
     configAdm: {
       'Configuração da conta': Configuracao(),
+      'Definição do painel da transparência': SetupUser(),
     }
   };
 

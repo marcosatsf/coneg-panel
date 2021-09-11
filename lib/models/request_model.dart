@@ -89,6 +89,7 @@ class RequestConeg {
       headers: _generateHeaders(contentType: 'application/json', isAuth: true),
       body: jsonEncode(data),
     );
+    lastStatusCode = req.statusCode;
     print(req.request);
     print(req.body);
   }
