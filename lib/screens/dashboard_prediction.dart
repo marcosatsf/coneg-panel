@@ -47,8 +47,8 @@ class _DashboardPredState extends State<DashboardPred> {
   Timer caller;
   Duration callerDuration = Duration(hours: 1);
   String nowInfoFormatted;
-  String informations =
-      "Informações de localização ainda não disponível, aguarde...";
+  // String informations =
+  //     "Informações de localização ainda não disponível, aguarde...";
 
   _DashboardPredState();
 
@@ -75,7 +75,7 @@ class _DashboardPredState extends State<DashboardPred> {
           data: res['timeseries']['prediction'],
           animate: option,
           location: res['timeseries']['locale']);
-      informations = 'Situação hoje em ${res['timeseries']['locale']}';
+      // informations = 'Situação hoje em ${res['timeseries']['locale']}';
     });
     print(res);
   }

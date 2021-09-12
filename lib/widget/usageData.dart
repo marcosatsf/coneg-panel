@@ -88,9 +88,9 @@ class SimplePieChart extends StatelessWidget {
               Text(
                 "Data: ${DateFormat('dd/MM/yyyy').format(DateTime.now())}",
                 style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
               ),
             ],
           )),
@@ -125,13 +125,16 @@ class SimplePieChart extends StatelessWidget {
           colorFn: (LinearCases cases, _) {
             switch (cases.status) {
               case 'CM':
-                return charts.ColorUtil.fromDartColor(Colors.green);
+                return charts.ColorUtil.fromDartColor(
+                    Colors.greenAccent.shade700);
                 break;
               case 'DSM':
-                return charts.ColorUtil.fromDartColor(Colors.yellow.shade700);
+                return charts.ColorUtil.fromDartColor(
+                    Colors.yellowAccent.shade700);
                 break;
               case 'CSM':
-                return charts.ColorUtil.fromDartColor(Colors.red);
+                return charts.ColorUtil.fromDartColor(
+                    Colors.redAccent.shade700);
                 break;
               default:
                 return charts.ColorUtil.fromDartColor(Colors.blue.shade800);

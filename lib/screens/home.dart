@@ -103,6 +103,9 @@ class _HomeState extends State<Home> {
                           width: 400,
                           child: TextFormField(
                             controller: user,
+                            onFieldSubmitted: (value) {
+                              if (_formKey.currentState.validate()) tryLogin();
+                            },
                             decoration: InputDecoration(
                               labelText: "Usuário",
                               labelStyle:
@@ -132,7 +135,9 @@ class _HomeState extends State<Home> {
                           width: 400,
                           child: TextFormField(
                             controller: pass,
-                            onFieldSubmitted: (value) {},
+                            onFieldSubmitted: (value) {
+                              if (_formKey.currentState.validate()) tryLogin();
+                            },
                             obscureText: true,
                             decoration: InputDecoration(
                               labelText: "Senha",

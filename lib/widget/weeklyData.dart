@@ -62,7 +62,8 @@ class SelectionCallbackExample extends StatefulWidget {
     return [
       new charts.Series<TimeSeriesCases, DateTime>(
         id: 'Status 0',
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.green),
+        colorFn: (_, __) =>
+            charts.ColorUtil.fromDartColor(Colors.greenAccent.shade700),
         domainFn: (TimeSeriesCases sales, _) => sales.time,
         measureFn: (TimeSeriesCases sales, _) => sales.qtd,
         data: status0,
@@ -70,14 +71,15 @@ class SelectionCallbackExample extends StatefulWidget {
       new charts.Series<TimeSeriesCases, DateTime>(
         id: 'Status 1',
         colorFn: (_, __) =>
-            charts.ColorUtil.fromDartColor(Colors.yellow.shade700),
+            charts.ColorUtil.fromDartColor(Colors.yellowAccent.shade700),
         domainFn: (TimeSeriesCases sales, _) => sales.time,
         measureFn: (TimeSeriesCases sales, _) => sales.qtd,
         data: status1,
       ),
       new charts.Series<TimeSeriesCases, DateTime>(
         id: 'Status 2',
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(Colors.red),
+        colorFn: (_, __) =>
+            charts.ColorUtil.fromDartColor(Colors.redAccent.shade700),
         domainFn: (TimeSeriesCases sales, _) => sales.time,
         measureFn: (TimeSeriesCases sales, _) => sales.qtd,
         data: status2,
@@ -190,7 +192,7 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
           padding: new EdgeInsets.only(top: 5.0, bottom: 5.0),
           child: new Text(
             DateFormat('dd/MM/yyyy').format(_time),
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           )));
     }
     _measures?.forEach((String series, num value) {
@@ -205,12 +207,14 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
                     style: TextStyle(
                         foreground: Paint()
                           ..style = PaintingStyle.stroke
-                          ..strokeWidth = 2
+                          ..strokeWidth = 3
                           ..color = Colors.black),
                   ),
                   Text(
                     'Com máscara (CM) [qtd]: $value',
-                    style: TextStyle(color: Colors.green),
+                    style: TextStyle(
+                        color: Colors.greenAccent.shade700,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               )));
@@ -225,12 +229,14 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
                     style: TextStyle(
                         foreground: Paint()
                           ..style = PaintingStyle.stroke
-                          ..strokeWidth = 2
+                          ..strokeWidth = 3
                           ..color = Colors.black),
                   ),
                   Text(
                     'Desconhecido sem máscara (DSM) [qtd]: $value',
-                    style: TextStyle(color: Colors.yellow.shade700),
+                    style: TextStyle(
+                        color: Colors.yellowAccent.shade700,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               )));
@@ -245,12 +251,14 @@ class _SelectionCallbackState extends State<SelectionCallbackExample> {
                     style: TextStyle(
                         foreground: Paint()
                           ..style = PaintingStyle.stroke
-                          ..strokeWidth = 2
+                          ..strokeWidth = 3
                           ..color = Colors.black),
                   ),
                   Text(
                     'Cadastrado sem máscara (CSM) [qtd]: $value',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(
+                        color: Colors.redAccent.shade700,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               )));

@@ -38,7 +38,6 @@ void main() {
         case ConegRoutes.dashboard:
           return NoAnimRoute(
             builder: (context) => RootPageConeg(
-              //TODO: CHANGE TO GENERAL DASH
               object: DashboardPred(),
               cAA: CrossAxisAlignment.center,
               masterRoute: ConegRoutes.dashboard,

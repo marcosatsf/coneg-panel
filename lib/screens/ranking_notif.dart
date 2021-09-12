@@ -49,7 +49,7 @@ class _RankingNotifState extends State<RankingNotif> {
   }
 
   void _loadData(bool option) async {
-    if (option == false) resOld = res;
+    if (option == false) resOld = res['notified'];
     res = await RequestConeg().getJsonAuth(endpoint: '/get_ranking');
     print(res);
     setState(() {
@@ -60,6 +60,7 @@ class _RankingNotifState extends State<RankingNotif> {
   Widget _buildText(int value) {
     if (value > 0) {
       return Container(
+        width: 50,
         margin: EdgeInsets.only(left: 5),
         padding: EdgeInsets.only(left: 5, right: 5),
         decoration: BoxDecoration(
@@ -79,10 +80,10 @@ class _RankingNotifState extends State<RankingNotif> {
           ],
         ),
       );
-      //return Text(' + ${value.toString()}', style: ,)
     } else {
       if (value < 0) {
         return Container(
+          width: 50,
           margin: EdgeInsets.only(left: 5),
           padding: EdgeInsets.only(left: 5, right: 5),
           decoration: BoxDecoration(
@@ -104,6 +105,7 @@ class _RankingNotifState extends State<RankingNotif> {
         );
       } else {
         return Container(
+          width: 50,
           margin: EdgeInsets.only(left: 5),
           padding: EdgeInsets.only(left: 5, right: 5),
           decoration: BoxDecoration(
@@ -135,14 +137,15 @@ class _RankingNotifState extends State<RankingNotif> {
         rows.add(DataRow(cells: [
           DataCell(Text(pesid)),
           DataCell(Text(ranking[pesid]['name'].toString())),
-          DataCell(Row(
-            children: [
-              Text('${ranking[pesid]['qtd'].toString()}'),
-              _buildText(delta)
-            ],
-          )),
+          DataCell(
+            Text('${ranking[pesid]['qtd'].toString()}'),
+          ),
+          DataCell(_buildText(delta))
         ]));
       }
+      rows.sort((a, b) => (b.cells[2].child as Text)
+          .data
+          .compareTo((a.cells[2].child as Text).data));
     } else {
       for (var pesid in ranking.keys) {
         rows.add(DataRow(cells: [
@@ -151,24 +154,45 @@ class _RankingNotifState extends State<RankingNotif> {
           DataCell(Text(ranking[pesid]['qtd'].toString())),
         ]));
       }
+      rows.sort((a, b) => (b.cells.last.child as Text)
+          .data
+          .compareTo((a.cells.last.child as Text).data));
     }
-    rows.sort((a, b) => (b.cells.last.child as Text)
-        .data
-        .compareTo((a.cells.last.child as Text).data));
 
-    return Column(children: [
-      SingleChildScrollView(
+    if (option == false) {
+      return Column(children: [
+        SingleChildScrollView(
+            child: DataTable(
+                sortColumnIndex: 2,
+                sortAscending: false,
+                headingRowColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  return rankingNotifDesign.getBlue();
+                }),
+                headingTextStyle: TextStyle(color: Colors.white),
+                columns: [
+                  DataColumn(label: Text('ID')),
+                  DataColumn(label: Text('Nome')),
+                  DataColumn(
+                    label: Text('Capturas totais sem máscara'),
+                    numeric: true,
+                  ),
+                  DataColumn(label: Text('Alteração recente')),
+                ],
+                rows: rows)),
+      ]);
+    } else {
+      return Column(children: [
+        SingleChildScrollView(
+            child: Container(
           child: DataTable(
               sortColumnIndex: 2,
               sortAscending: false,
               headingRowColor: MaterialStateProperty.resolveWith<Color>(
                   (Set<MaterialState> states) {
-                if (states.contains(MaterialState.hovered))
-                  return rankingNotifDesign.getPurple().withOpacity(0.20);
-                return rankingNotifDesign
-                    .getPurple()
-                    .withOpacity(0.50); // Use the default value.
+                return rankingNotifDesign.getBlue();
               }),
+              headingTextStyle: TextStyle(color: Colors.white),
               columns: [
                 DataColumn(label: Text('ID')),
                 DataColumn(label: Text('Nome')),
@@ -177,8 +201,12 @@ class _RankingNotifState extends State<RankingNotif> {
                   numeric: true,
                 ),
               ],
-              rows: rows)),
-    ]);
+              rows: rows),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+        )),
+      ]);
+    }
   }
 
   @override
@@ -197,61 +225,58 @@ class _RankingNotifState extends State<RankingNotif> {
           border: Border.all(width: 5, color: Color(0xFF23A39B))),
       child: childWidget,
       height: h != null ? h : 900,
-      width: w != null ? w : 900,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Stack(
-                  children: <Widget>[
-                    // Stroked text as border.
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 40,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = 6
-                          ..color = rankingNotifDesign.getBlue(),
-                      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: <Widget>[
+                  // Stroked text as border.
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 40,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 6
+                        ..color = rankingNotifDesign.getBlue(),
                     ),
-                    // Solid text as fill.
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: Colors.grey[300],
-                      ),
+                  ),
+                  // Solid text as fill.
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 40,
+                      color: Colors.grey[300],
                     ),
-                  ],
-                ),
-                Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: IconButton(
-                        splashRadius: 10,
-                        icon: Icon(
-                          Icons.help_outline_rounded,
-                          color: rankingNotifDesign.getPurple(),
-                        ),
-                        onPressed: () {
-                          helpRankingNotif.showHelp(context, "Ajuda em $title");
-                        })),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: IconButton(
+                      splashRadius: 10,
+                      icon: Icon(
+                        Icons.help_outline_rounded,
+                        color: rankingNotifDesign.getPurple(),
+                      ),
+                      onPressed: () {
+                        helpRankingNotif.showHelp(context, "Ajuda em $title");
+                      })),
+            ],
           ),
-          _buildContainer(buildTable, h: 500, w: 700),
-        ],
-      ),
+        ),
+        _buildContainer(buildTable, h: 500),
+      ],
     );
   }
 }

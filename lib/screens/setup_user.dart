@@ -350,6 +350,7 @@ class _SetupUserState extends State<SetupUser> {
                                             chartsOrganizadosModuloExpandido[0]
                                                 ? '[0,0]\n\n${chartsOrganizadosLocations['0,0']['name']} (1/2)'
                                                 : '[0,0]\n\n${chartsOrganizadosLocations['0,0']['name']}',
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: chartsOrganizadosLocations[
                                                           '0,0']['name'] ==
@@ -409,6 +410,7 @@ class _SetupUserState extends State<SetupUser> {
                                             chartsOrganizadosModuloExpandido[0]
                                                 ? '[0,1]\n\n${chartsOrganizadosLocations['0,1']['name']} (2/2)'
                                                 : '[0,1]\n\n${chartsOrganizadosLocations['0,1']['name']}',
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: chartsOrganizadosLocations[
                                                           '0,1']['name'] ==
@@ -468,6 +470,7 @@ class _SetupUserState extends State<SetupUser> {
                                             chartsOrganizadosModuloExpandido[1]
                                                 ? '[1,0]\n\n${chartsOrganizadosLocations['1,0']['name']} (1/2)'
                                                 : '[1,0]\n\n${chartsOrganizadosLocations['1,0']['name']}',
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: chartsOrganizadosLocations[
                                                           '1,0']['name'] ==
@@ -527,6 +530,7 @@ class _SetupUserState extends State<SetupUser> {
                                             chartsOrganizadosModuloExpandido[1]
                                                 ? '[1,1]\n\n${chartsOrganizadosLocations['1,1']['name']} (2/2)'
                                                 : '[1,1]\n\n${chartsOrganizadosLocations['1,1']['name']}',
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: chartsOrganizadosLocations[
                                                           '1,1']['name'] ==

@@ -1,7 +1,10 @@
 Nesta página é possível verificar em tempo real as 5 pessoas cadastradas que mais receberam notificações.
+*Esta página é atualizada a cada 1 minuto.
 
 Cuidado com elas! Pelo jeito gostam de desrespeitar as medidas sanitárias...
 
 ID : Respectivo ao ID cadastrado no sistema ConEg;
 Nome : Respectivo ao nome cadastrado no sistema ConEg;
 Capturas totais sem máscara : Contagem do total de vezes que já foi capturado não utilizando máscara.
+*Passado o primeiro minuto, uma nova coluna chamada "Alteração recente" aparecerá mostrando se houve
+alguma modificação nos números de capturas totais sem máscara.

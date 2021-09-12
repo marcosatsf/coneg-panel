@@ -144,6 +144,12 @@ class _HistNotifState extends State<HistNotif> {
                               width: 400,
                               child: TextFormField(
                                 controller: idPessoa,
+                                onFieldSubmitted: (value) {
+                                  if (_formKeySearch.currentState.validate()) {
+                                    _offset = 0;
+                                    _loadData();
+                                  }
+                                },
                                 decoration: InputDecoration(
                                   labelText: "ID da pessoa cadastrada",
                                   labelStyle: TextStyle(
@@ -232,7 +238,14 @@ class _HistNotifState extends State<HistNotif> {
     if (cases.isNotEmpty)
       return _createCasesTable(cases);
     else
-      return Container();
+      return Container(
+        child: Center(
+          child: Text(
+            'Sem dados...',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      );
   }
 
   Widget _createCasesTable(List<dynamic> cases) {
@@ -260,6 +273,7 @@ class _HistNotifState extends State<HistNotif> {
             );
           String datetime = DateFormat('dd/MM/yyyy - HH:mm')
               .format(DateTime.parse(cases[index]['ts']));
+          List<ListTile> tmp = List.empty(growable: true);
           if (cases[index]['notified'] == 1)
             return ListTile(
               leading: Icon(
@@ -267,7 +281,7 @@ class _HistNotifState extends State<HistNotif> {
                 color: Colors.red.shade800,
               ),
               title: Text(
-                'Notificado, horário da captura: $datetime',
+                '[Reg. ${index + _offset + 1}] Notificado neste momento, captura em: $datetime',
                 style: TextStyle(color: Colors.white),
               ),
               trailing: MaterialButton(
@@ -298,7 +312,7 @@ class _HistNotifState extends State<HistNotif> {
                 color: Colors.yellow.shade600,
               ),
               title: Text(
-                'Não notificado, horário da captura: $datetime',
+                '[Reg. ${index + _offset + 1}] Já notificado neste dia, captura em: $datetime',
                 style: TextStyle(color: Colors.white),
               ),
               trailing: MaterialButton(
@@ -326,7 +340,7 @@ class _HistNotifState extends State<HistNotif> {
         separatorBuilder: (context, index) => Divider(
               color: Color(0xFF23A39B),
             ),
-        itemCount: cases.length);
+        itemCount: cases.length == 10 ? cases.length + 1 : cases.length);
   }
 
   List<bool> _loadDetails(int idx, Map cases, List selections) {

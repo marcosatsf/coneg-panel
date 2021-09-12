@@ -94,38 +94,38 @@ class _DashboardCamState extends State<DashboardCam> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 1000,
-        height: 820,
+    return SingleChildScrollView(
+        // width: 1000,
+        // height: 820,
         child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  children: <Widget>[
-                    _buildContainer(_build['weeklydata'], h: 400, w: 450),
-                    _buildContainer(_build['infodata'], h: 380, w: 450),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    _buildContainer(_build['dailydata'], h: 400, w: 450),
-                    _buildContainer(_build['usagedata'], h: 380, w: 450),
-                  ],
-                ),
-                Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Tooltip(
-                      message: "Última vez atualizado em $nowInfoFormatted",
-                      child: Icon(
-                        Icons.help_outline_rounded,
-                        color: design.getPurple(),
-                      ),
-                    )),
+            Column(
+              children: <Widget>[
+                _buildContainer(_build['weeklydata'], h: 400, w: 450),
+                _buildContainer(_build['infodata'], h: 380, w: 450),
               ],
             ),
+            Column(
+              children: <Widget>[
+                _buildContainer(_build['dailydata'], h: 400, w: 450),
+                _buildContainer(_build['usagedata'], h: 380, w: 450),
+              ],
+            ),
+            Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Tooltip(
+                  message: "Última vez atualizado em $nowInfoFormatted",
+                  child: Icon(
+                    Icons.help_outline_rounded,
+                    color: design.getPurple(),
+                  ),
+                )),
           ],
-        ));
+        ),
+      ],
+    ));
   }
 }

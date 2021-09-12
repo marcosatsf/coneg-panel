@@ -10,41 +10,182 @@ class InfoData extends StatelessWidget {
 
   InfoData({this.data, this.titulo});
 
-  Widget _buildText() {
-    if (data.length == 2)
-      return Padding(
-          padding: EdgeInsets.all(1),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Maior fluxo de pessoas sem máscara [em ${DateFormat('dd/MM/yyyy').format(DateTime.parse(data[0][1]))}]\n${data[0][0].toString()}",
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
+  List<Widget> _buildText() {
+    List<Widget> tmp = List.empty(growable: true);
+
+    TextStyle textInfo(Color tColor) => TextStyle(fontSize: 20, color: tColor);
+
+    tmp.add(Flexible(
+        child: Container(
+      child: Center(
+        child: Text(
+          "Maior fluxo recente sem máscara",
+          style: textInfo(Colors.white),
+        ),
+      ),
+      decoration: BoxDecoration(
+        color: Colors.redAccent.shade700,
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+      ),
+    )));
+
+    if (data.length == 3)
+      tmp.add(Flexible(
+          child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  data[0][0].toString(),
+                  style: textInfo(Colors.redAccent.shade700),
+                ),
               ),
-              Text(
-                "Menor fluxo de pessoas sem máscara [em ${DateFormat('dd/MM/yyyy').format(DateTime.parse(data[1][1]))}]\n${data[1][0].toString()}",
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  DateFormat('dd/MM/yyyy').format(DateTime.parse(data[0][1])),
+                  style: textInfo(Colors.white),
+                ),
               ),
-            ],
-          ));
+              color: Colors.redAccent.shade700,
+            ),
+          ),
+        ],
+      )));
     else
-      return Padding(
-          padding: EdgeInsets.all(1),
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Maior fluxo de pessoas sem máscara\n-Sem dados suficientes-",
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
+      tmp.add(Flexible(
+          child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  '-',
+                  style: textInfo(Colors.redAccent.shade700),
+                ),
               ),
-              Text(
-                "Menor fluxo de pessoas sem máscara\n-Sem dados suficientes-",
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  '-',
+                  style: textInfo(Colors.white),
+                ),
               ),
-            ],
-          ));
+              color: Colors.redAccent.shade700,
+            ),
+          ),
+        ],
+      )));
+
+    tmp.add(Flexible(
+        child: Container(
+      child: Center(
+        child: Text(
+          "Menor fluxo recente sem máscara",
+          style: textInfo(Colors.white),
+        ),
+      ),
+      color: Colors.green.shade800,
+    )));
+
+    if (data.length == 3)
+      tmp.add(Flexible(
+          child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  data[1][0].toString(),
+                  style: textInfo(Colors.green.shade800),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  DateFormat('dd/MM/yyyy').format(DateTime.parse(data[1][1])),
+                  style: textInfo(Colors.white),
+                ),
+              ),
+              color: Colors.green.shade800,
+            ),
+          ),
+        ],
+      )));
+    else
+      tmp.add(Flexible(
+          child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  '-',
+                  style: textInfo(Colors.green.shade800),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Center(
+                child: Text(
+                  '-',
+                  style: textInfo(Colors.white),
+                ),
+              ),
+              color: Colors.green.shade800,
+            ),
+          ),
+        ],
+      )));
+
+    tmp.add(Flexible(
+        child: Container(
+      child: Center(
+        child: Text(
+          "Contador de pessoas para hoje",
+          style: textInfo(Colors.white),
+        ),
+      ),
+      color: Colors.blue.shade900,
+    )));
+
+    if (data.length == 3)
+      tmp.add(Flexible(
+        child: Container(
+          child: Center(
+            child: Text(
+              data[2][0].toString(),
+              style: textInfo(Colors.blue.shade900),
+            ),
+          ),
+        ),
+      ));
+    else
+      tmp.add(Flexible(
+        child: Container(
+          child: Center(
+            child: Text(
+              '-',
+              style: textInfo(Colors.blue.shade900),
+            ),
+          ),
+        ),
+      ));
+
+    return tmp;
   }
 
   @override
@@ -53,7 +194,7 @@ class InfoData extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -82,13 +223,8 @@ class InfoData extends StatelessWidget {
                 ),
               ],
             )),
-        _buildText(),
+        ..._buildText(),
       ],
     );
-    // return Container(
-    //   height: 200,
-    //   width: 900,
-    //   color: Colors.blue,
-    // );
   }
 }
