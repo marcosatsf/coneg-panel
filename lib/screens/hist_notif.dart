@@ -31,7 +31,7 @@ class _HistNotifState extends State<HistNotif> {
   RequestConeg requestSystem = RequestConeg();
   ConegDesign histNotifDesign = GetIt.I<ConegDesign>();
   List<dynamic> gotCases = List<dynamic>.empty();
-  String title = "Histórico de cadastrados sem máscara";
+  String title = "Histórico de Cadastrados Sem Máscara";
   HelpView helpRankingNotif = HelpView('assets/helpHistNotif.txt');
   Map<String, dynamic> currentCase;
   List<bool> isSelected;

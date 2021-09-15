@@ -109,11 +109,31 @@ class _NotificacaoConfigState extends State<NotificacaoConfig> {
                         fit: FlexFit.tight,
                         flex: 1,
                         child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Text(
-                              'Notificação cadastrada',
-                              style: TextStyle(fontSize: 20),
-                            )),
+                          padding: EdgeInsets.all(10),
+                          child: Stack(
+                            children: <Widget>[
+                              // Stroked text as border.
+                              Text(
+                                'Notificação Cadastrada',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 6
+                                    ..color = notificacaoDesign.getBlue(),
+                                ),
+                              ),
+                              // Solid text as fill.
+                              Text(
+                                'Notificação Cadastrada',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       Flexible(
                         flex: 1,
@@ -180,11 +200,31 @@ class _NotificacaoConfigState extends State<NotificacaoConfig> {
                       Flexible(
                         flex: 2,
                         child: Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Text(
-                              'Atualizar Notificação',
-                              style: TextStyle(fontSize: 20),
-                            )),
+                          padding: EdgeInsets.all(10),
+                          child: Stack(
+                            children: <Widget>[
+                              // Stroked text as border.
+                              Text(
+                                'Atualizar Notificação',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 6
+                                    ..color = notificacaoDesign.getBlue(),
+                                ),
+                              ),
+                              // Solid text as fill.
+                              Text(
+                                'Atualizar Notificação',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       Flexible(
                         flex: 2,
