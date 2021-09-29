@@ -72,6 +72,7 @@ flutter:
     - assets/helpRankingNotif.txt
     - assets/helpHistNotif.txt
     - assets/helpUserPanel.txt
+    - assets/helpListUser.txt
     - assets/coneg_gif.riv
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

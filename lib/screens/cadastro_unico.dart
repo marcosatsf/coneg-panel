@@ -27,6 +27,7 @@ class CadastroUnico extends StatefulWidget {
 
 class _CadastroUnicoState extends State<CadastroUnico> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController identificacao = TextEditingController();
   TextEditingController nome = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController telefone = TextEditingController();
@@ -73,6 +74,7 @@ class _CadastroUnicoState extends State<CadastroUnico> {
         "POST", Uri.parse("${RequestConeg.route}/upload_single"));
     req.headers
         .addAll({HttpHeaders.authorizationHeader: authentication.toAuth()});
+    req.fields['identificacao'] = identificacao.value.text;
     req.fields['nome'] = nome.value.text;
     req.fields['email'] = email.value.text;
     req.fields['telefone'] = telefone.value.text;
@@ -89,7 +91,7 @@ class _CadastroUnicoState extends State<CadastroUnico> {
       } else {
         print("Not uploaded! ${response.statusCode}");
         helpCadastroUnico.showInfo(context, "Status do upload",
-            "Não foi possível realizar o cadastro! Por favor verifique se todos os campos estão preenchidos e contém uma imagem JPG");
+            "Não foi possível realizar o cadastro! Por favor verifique se todos os campos estão preenchidos,\nse contém uma imagem JPG ou se está tentando inserir uma identificação que já existe!");
         // spawnDialog(
         //     context,
         //     "Status do upload",
@@ -149,7 +151,7 @@ class _CadastroUnicoState extends State<CadastroUnico> {
         Padding(
           padding: EdgeInsets.all(20),
           child: Container(
-              height: 500,
+              height: 550,
               width: 500,
               decoration: BoxDecoration(
                   color: Color(0xFF17DFD3),
@@ -159,6 +161,36 @@ class _CadastroUnicoState extends State<CadastroUnico> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: TextFormField(
+                          controller: identificacao,
+                          onFieldSubmitted: (value) {},
+                          decoration: InputDecoration(
+                            hintText:
+                                "Identificação da pessoa a ser registrada",
+                            labelText: "Identificação",
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 2.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xFF23A39B), width: 2.0),
+                            ),
+                          ),
+                          style: TextStyle(
+                              color: cadastroDesign.getBlue(), fontSize: 15),
+                          textAlign: TextAlign.center,
+                          validator: (value) {
+                            if (value.isEmpty)
+                              return "Identificação não pode ser vazio!";
+                          },
+                        ),
+                      ),
+                    ),
                     Flexible(
                       flex: 1,
                       child: Padding(
@@ -284,7 +316,7 @@ class _CadastroUnicoState extends State<CadastroUnico> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.all(50),
+                      padding: EdgeInsets.fromLTRB(50, 25, 50, 50),
                       child: Container(
                         width: 400,
                         height: 50,
@@ -306,29 +338,6 @@ class _CadastroUnicoState extends State<CadastroUnico> {
                         ),
                       ),
                     ),
-                    // MaterialButton(
-                    //   onPressed: () {
-                    //     makeRequestMultipart();
-                    //   },
-                    //   color: cadastroDesign.getPurple(),
-                    //   elevation: 10,
-                    //   highlightElevation: 2,
-                    //   shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(20)),
-                    //   textColor: Colors.white,
-                    //   child: Text('Enviar cadastro'),
-                    // ),
-                    // AnimatedContainer(
-                    //   duration: Duration(milliseconds: 500),
-                    //   width: 400,
-                    //   height: heightCont,
-                    //   child: Text(
-                    //     userResp,
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(
-                    //         color: colorResp, fontWeight: FontWeight.bold),
-                    //   ),
-                    // ),
                   ],
                 ),
               )),

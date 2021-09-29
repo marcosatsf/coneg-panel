@@ -8,6 +8,7 @@ import 'package:coneg/screens/dashboard.dart';
 import 'package:coneg/screens/dashboard_cam.dart';
 import 'package:coneg/screens/dashboard_prediction.dart';
 import 'package:coneg/screens/hist_notif.dart';
+import 'package:coneg/screens/lista_user.dart';
 import 'package:coneg/screens/notificacao.dart';
 import 'package:coneg/screens/ranking_notif.dart';
 import 'package:coneg/screens/setup_user.dart';
@@ -28,6 +29,7 @@ class ConegRoutes {
     cadastro: {
       'Cadastro Geral': CadastroCompleto(),
       'Cadastro Único': CadastroUnico(),
+      'Lista de cadastros': ListaUser(),
     },
     configNotific: {
       'Configuração de notificação': NotificacaoConfig(),

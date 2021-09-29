@@ -1,0 +1,2 @@
+Nesta página é possível verificar os usuários cadastrados no sistema.
+O campo ID serve para verificar se já existe algum cadastro com aquela identificação.
